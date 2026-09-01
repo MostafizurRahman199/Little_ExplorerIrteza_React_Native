@@ -6,15 +6,42 @@ import { theme } from '../../theme';
 interface AnimalCardProps {
   animal: AnimalItem;
   onPress: () => void;
+  index?: number;
 }
 
-export const AnimalCard: React.FC<AnimalCardProps> = ({ animal, onPress }) => {
+export const AnimalCard: React.FC<AnimalCardProps> = ({ animal, onPress, index = 0 }) => {
   const scaleAnim = useRef(new Animated.Value(1)).current;
+  const opacityAnim = useRef(new Animated.Value(0)).current;
+  const translateYAnim = useRef(new Animated.Value(45)).current;
   const [imageError, setImageError] = useState<boolean>(false);
 
   useEffect(() => {
     setImageError(false);
   }, [animal.id]);
+
+  // Staggered animated entrance for grid cards
+  useEffect(() => {
+    opacityAnim.setValue(0);
+    translateYAnim.setValue(45);
+
+    const timer = setTimeout(() => {
+      Animated.parallel([
+        Animated.timing(opacityAnim, {
+          toValue: 1,
+          duration: 350,
+          useNativeDriver: true,
+        }),
+        Animated.spring(translateYAnim, {
+          toValue: 0,
+          speed: 14,
+          bounciness: 9,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    }, (index % 8) * 85);
+
+    return () => clearTimeout(timer);
+  }, [index]);
 
   const handlePressIn = () => {
     Animated.spring(scaleAnim, {
@@ -49,7 +76,8 @@ export const AnimalCard: React.FC<AnimalCardProps> = ({ animal, onPress }) => {
           styles.card,
           {
             backgroundColor: animal.bgColor,
-            transform: [{ scale: scaleAnim }],
+            opacity: opacityAnim,
+            transform: [{ scale: scaleAnim }, { translateY: translateYAnim }],
           },
           theme.shadows.medium,
         ]}

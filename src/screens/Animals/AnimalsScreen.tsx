@@ -6,6 +6,7 @@ import { RootStackParamList } from '../../types/navigation';
 import { BackButton, AnimalCard, AnimalDetail } from '../../components';
 import { ANIMALS } from '../../data';
 import { theme } from '../../theme';
+import { AudioService } from '../../services';
 
 type AnimalsScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Animals'>;
 
@@ -17,10 +18,12 @@ export const AnimalsScreen: React.FC<AnimalsScreenProps> = ({ navigation }) => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
+  // Play audio announcement when Animals screen opens
+  useEffect(() => {
+    AudioService.playWord('Animals');
+  }, []);
+
   // Auto-play slideshow timer effect
-  // NOTE: Audio is NOT played here — AnimalDetail's useEffect([animal.id])
-  // already speaks the name whenever the displayed animal changes.
-  // Playing here too would cause a double-sound on every slide advance.
   useEffect(() => {
     let timer: any;
     if (isPlaying) {
@@ -124,7 +127,7 @@ export const AnimalsScreen: React.FC<AnimalsScreenProps> = ({ navigation }) => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.listContent}
           renderItem={({ item, index }) => (
-            <AnimalCard animal={item} onPress={() => handleSelectAnimal(index)} />
+            <AnimalCard animal={item} index={index} onPress={() => handleSelectAnimal(index)} />
           )}
         />
       )}

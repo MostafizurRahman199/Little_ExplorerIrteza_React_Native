@@ -5,6 +5,7 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   Image,
   Animated,
 } from 'react-native';
@@ -23,6 +24,79 @@ interface ColorsScreenProps {
   navigation: ColorsScreenNavigationProp;
 }
 
+const AnimatedColorCard: React.FC<{
+  item: ColorItem;
+  index: number;
+  onPress: () => void;
+}> = ({ item, index, onPress }) => {
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+  const opacityAnim = useRef(new Animated.Value(0)).current;
+  const translateYAnim = useRef(new Animated.Value(45)).current;
+
+  useEffect(() => {
+    opacityAnim.setValue(0);
+    translateYAnim.setValue(45);
+
+    const timer = setTimeout(() => {
+      Animated.parallel([
+        Animated.timing(opacityAnim, {
+          toValue: 1,
+          duration: 350,
+          useNativeDriver: true,
+        }),
+        Animated.spring(translateYAnim, {
+          toValue: 0,
+          speed: 14,
+          bounciness: 9,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    }, (index % 8) * 80);
+
+    return () => clearTimeout(timer);
+  }, [index]);
+
+  const handlePressIn = () => {
+    Animated.spring(scaleAnim, {
+      toValue: 0.92,
+      speed: 25,
+      bounciness: 8,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const handlePressOut = () => {
+    Animated.spring(scaleAnim, {
+      toValue: 1,
+      speed: 20,
+      bounciness: 12,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  return (
+    <TouchableWithoutFeedback
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
+      onPress={onPress}
+    >
+      <Animated.View
+        style={[
+          styles.gridCard,
+          {
+            backgroundColor: item.bgColor,
+            opacity: opacityAnim,
+            transform: [{ scale: scaleAnim }, { translateY: translateYAnim }],
+          },
+        ]}
+      >
+        <View style={[styles.gridSwatch, { backgroundColor: item.hex }]} />
+        <Text style={[styles.gridName, { color: item.accentColor }]}>{item.name}</Text>
+      </Animated.View>
+    </TouchableWithoutFeedback>
+  );
+};
+
 export const ColorsScreen: React.FC<ColorsScreenProps> = ({ navigation }) => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -31,6 +105,11 @@ export const ColorsScreen: React.FC<ColorsScreenProps> = ({ navigation }) => {
   const sparkleAnim = useRef(new Animated.Value(0)).current;
 
   const currentItem: ColorItem | null = selectedIndex !== null ? COLORS_ITEMS[selectedIndex] : null;
+
+  // Play audio announcement on screen mount
+  useEffect(() => {
+    AudioService.playWord('Colors');
+  }, []);
 
   // Speak ONLY color name (e.g. "Yellow") when selected index changes or on swap
   useEffect(() => {
@@ -228,14 +307,11 @@ export const ColorsScreen: React.FC<ColorsScreenProps> = ({ navigation }) => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.gridContent}
           renderItem={({ item, index }) => (
-            <TouchableOpacity
-              activeOpacity={0.85}
+            <AnimatedColorCard
+              item={item}
+              index={index}
               onPress={() => handleSelectColor(index)}
-              style={[styles.gridCard, { backgroundColor: item.bgColor }]}
-            >
-              <View style={[styles.gridSwatch, { backgroundColor: item.hex }]} />
-              <Text style={[styles.gridName, { color: item.accentColor }]}>{item.name}</Text>
-            </TouchableOpacity>
+            />
           )}
         />
       )}

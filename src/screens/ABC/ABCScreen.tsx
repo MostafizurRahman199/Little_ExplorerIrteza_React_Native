@@ -24,6 +24,82 @@ interface ABCScreenProps {
   navigation: ABCScreenNavigationProp;
 }
 
+const AnimatedABCCard: React.FC<{
+  item: ABCItem;
+  index: number;
+  onPress: () => void;
+}> = ({ item, index, onPress }) => {
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+  const opacityAnim = useRef(new Animated.Value(0)).current;
+  const translateYAnim = useRef(new Animated.Value(45)).current;
+
+  useEffect(() => {
+    opacityAnim.setValue(0);
+    translateYAnim.setValue(45);
+
+    const timer = setTimeout(() => {
+      Animated.parallel([
+        Animated.timing(opacityAnim, {
+          toValue: 1,
+          duration: 350,
+          useNativeDriver: true,
+        }),
+        Animated.spring(translateYAnim, {
+          toValue: 0,
+          speed: 14,
+          bounciness: 9,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    }, (index % 9) * 65);
+
+    return () => clearTimeout(timer);
+  }, [index]);
+
+  const handlePressIn = () => {
+    Animated.spring(scaleAnim, {
+      toValue: 0.92,
+      speed: 25,
+      bounciness: 8,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const handlePressOut = () => {
+    Animated.spring(scaleAnim, {
+      toValue: 1,
+      speed: 20,
+      bounciness: 12,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  return (
+    <TouchableWithoutFeedback
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
+      onPress={onPress}
+    >
+      <Animated.View
+        style={[
+          styles.gridCard,
+          {
+            backgroundColor: item.bgColor,
+            opacity: opacityAnim,
+            transform: [{ scale: scaleAnim }, { translateY: translateYAnim }],
+          },
+        ]}
+      >
+        <View style={[styles.gridLetterBadge, { backgroundColor: item.accentColor }]}>
+          <Text style={styles.gridLetterText}>{item.letter}</Text>
+        </View>
+        <Text style={styles.gridIllustration}>{item.illustration}</Text>
+        <Text style={[styles.gridWord, { color: item.accentColor }]}>{item.word}</Text>
+      </Animated.View>
+    </TouchableWithoutFeedback>
+  );
+};
+
 export const ABCScreen: React.FC<ABCScreenProps> = ({ navigation }) => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -32,6 +108,11 @@ export const ABCScreen: React.FC<ABCScreenProps> = ({ navigation }) => {
   const sparkleAnim = useRef(new Animated.Value(0)).current;
 
   const currentItem: ABCItem | null = selectedIndex !== null ? ABC_ITEMS[selectedIndex] : null;
+
+  // Play entrance audio announcement when screen opens
+  useEffect(() => {
+    AudioService.playWord('ABC Alphabet');
+  }, []);
 
   // Speak phrase in poem sing-song style whenever selected index changes
   useEffect(() => {
@@ -179,11 +260,6 @@ export const ABCScreen: React.FC<ABCScreenProps> = ({ navigation }) => {
             </Text>
           </View>
 
-          {/* Audio Speech Button */}
-          {/* <TouchableOpacity activeOpacity={0.8} onPress={handleCardTap} style={styles.soundBadge}>
-            <Text style={styles.soundBadgeText}>🔊 Say "{currentItem.phrase}"</Text>
-          </TouchableOpacity> */}
-
           {/* Real Photo Card */}
           <TouchableOpacity activeOpacity={0.9} onPress={handleCardTap} style={styles.imageCard}>
             <Animated.View style={[styles.imageWrapper, { transform: [{ scale: scaleValue }] }]}>
@@ -235,17 +311,11 @@ export const ABCScreen: React.FC<ABCScreenProps> = ({ navigation }) => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.gridContent}
           renderItem={({ item, index }) => (
-            <TouchableOpacity
-              activeOpacity={0.85}
+            <AnimatedABCCard
+              item={item}
+              index={index}
               onPress={() => handleSelectLetter(index)}
-              style={[styles.gridCard, { backgroundColor: item.bgColor }]}
-            >
-              <View style={[styles.gridLetterBadge, { backgroundColor: item.accentColor }]}>
-                <Text style={styles.gridLetterText}>{item.letter}</Text>
-              </View>
-              <Text style={styles.gridIllustration}>{item.illustration}</Text>
-              <Text style={[styles.gridWord, { color: item.accentColor }]}>{item.word}</Text>
-            </TouchableOpacity>
+            />
           )}
         />
       )}
