@@ -166,7 +166,7 @@ export const ColorsScreen: React.FC<ColorsScreenProps> = ({ navigation }) => {
       {/* Main Content */}
       {currentItem !== null ? (
         /* Fullscreen Color Detail Card */
-        <View style={[styles.detailCard, { backgroundColor: currentItem.hex + '18' }]}>
+        <View style={[styles.detailCard, { backgroundColor: currentItem.bgColor }]}>
           {/* Sparkles */}
           <Animated.View style={[styles.sparkleContainer, { opacity: sparkleAnim }]}>
             <Text style={styles.sparkleText}>✨ 🎨 🌈</Text>
@@ -231,10 +231,9 @@ export const ColorsScreen: React.FC<ColorsScreenProps> = ({ navigation }) => {
             <TouchableOpacity
               activeOpacity={0.85}
               onPress={() => handleSelectColor(index)}
-              style={[styles.gridCard, { backgroundColor: item.hex + '18' }]}
+              style={[styles.gridCard, { backgroundColor: item.bgColor }]}
             >
-              <View style={[styles.gridSwatch, { backgroundColor: item.hex }]}>
-              </View>
+              <View style={[styles.gridSwatch, { backgroundColor: item.hex }]} />
               <Text style={[styles.gridName, { color: item.accentColor }]}>{item.name}</Text>
             </TouchableOpacity>
           )}
@@ -307,22 +306,22 @@ const styles = StyleSheet.create({
     minHeight: 140,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.08,
     shadowRadius: 4,
-    elevation: 3,
+    elevation: 2,
   },
   gridSwatch: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+    width: 64,
+    height: 64,
+    borderRadius: 32,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
+    shadowOpacity: 0.12,
     shadowRadius: 3,
-    elevation: 3,
+    elevation: 2,
   },
   gridIllustration: {
     fontSize: 28,

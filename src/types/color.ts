@@ -3,6 +3,7 @@ export interface ColorItem {
   name: string;
   displayName: string;
   hex: string;
+  bgColor: string;
   illustration: string;
   imageUrl: string;
   examples: string[];

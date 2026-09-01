@@ -64,15 +64,14 @@ export class AudioService {
   }
 
   /**
-   * Speak a nursery rhyme poem phrase with melodic rhythm (e.g. "A... is for... Apple! ... A, A, Apple!")
+   * Speak phrase in classic style: "A for Apple!"
    */
   public static async playPoemPhrase(letter: string, word: string): Promise<void> {
     if (this.isMuted) return;
     try {
       this.playMelodicChime();
-      // Melodic nursery rhyme structure: "A... is for... Apple! ... A, A, Apple!"
-      const poemText = `${letter}... is for... ${word}! ... ${letter}, ${word}!`;
-      this.speakText(poemText, 0.74, 1.28);
+      const poemText = `${letter} for ${word}!`;
+      this.speakText(poemText, 0.78, 1.22);
     } catch (error) {
       // Ignore speech errors
     }
