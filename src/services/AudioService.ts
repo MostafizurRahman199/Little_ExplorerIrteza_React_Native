@@ -57,11 +57,7 @@ export class AudioService {
     if (this.isMuted) return;
     try {
       this.playMelodicChime();
-      const rhythmicText = word.includes(' for ')
-        ? word.replace(' for ', '! ... is for... ') + '! ... ' + word.split(' for ')[0] + ', ' + word.split(' for ')[1] + '!'
-        : `${word}!`;
-
-      this.speakText(rhythmicText, 0.76, 1.25);
+      this.speakText(`${word}!`, 0.82, 1.18);
     } catch (error) {
       // Ignore speech errors
     }
