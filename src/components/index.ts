@@ -5,3 +5,5 @@ export * from './AnimatedCharacter';
 export * from './SoundButton';
 export * from './BackButton';
 export * from './ProgressIndicator';
+export * from './AnimalCard';
+export * from './AnimalDetail';

@@ -1,2 +1,1 @@
-// Data layer placeholder for educational modules
-export {};
+export * from './animals';

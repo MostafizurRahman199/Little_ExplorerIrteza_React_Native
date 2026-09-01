@@ -1,16 +1,21 @@
-import React, { useRef } from 'react';
-import { TouchableWithoutFeedback, Text, StyleSheet, View, Animated } from 'react-native';
-import { CategoryItem } from '../../types';
+import React, { useRef, useState, useEffect } from 'react';
+import { TouchableWithoutFeedback, Text, StyleSheet, View, Animated, Image } from 'react-native';
+import { AnimalItem } from '../../types';
 import { theme } from '../../theme';
 import { AudioService } from '../../services';
 
-interface CategoryCardProps {
-  category: CategoryItem;
+interface AnimalCardProps {
+  animal: AnimalItem;
   onPress: () => void;
 }
 
-export const CategoryCard: React.FC<CategoryCardProps> = ({ category, onPress }) => {
+export const AnimalCard: React.FC<AnimalCardProps> = ({ animal, onPress }) => {
   const scaleAnim = useRef(new Animated.Value(1)).current;
+  const [imageError, setImageError] = useState<boolean>(false);
+
+  useEffect(() => {
+    setImageError(false);
+  }, [animal.id]);
 
   const handlePressIn = () => {
     Animated.spring(scaleAnim, {
@@ -43,15 +48,24 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category, onPress })
       <Animated.View
         style={[
           styles.card,
-          { backgroundColor: category.bgColor, transform: [{ scale: scaleAnim }] },
+          { backgroundColor: animal.bgColor, transform: [{ scale: scaleAnim }] },
           theme.shadows.medium,
         ]}
       >
-        <View style={styles.iconContainer}>
-          <Text style={styles.icon}>{category.icon}</Text>
+        <View style={styles.iconCircle}>
+          {!imageError && animal.imageUrl ? (
+            <Image
+              source={{ uri: animal.imageUrl }}
+              style={styles.cardImage}
+              resizeMode="cover"
+              onError={() => setImageError(true)}
+            />
+          ) : (
+            <Text style={styles.illustration}>{animal.illustration}</Text>
+          )}
         </View>
-        <Text style={[styles.title, { color: category.accentColor }]}>{category.title}</Text>
-        <Text style={styles.subtitle}>{category.subtitle}</Text>
+        <Text style={[styles.name, { color: animal.accentColor }]}>{animal.name}</Text>
+        <Text style={styles.soundBadge}>{animal.soundText}</Text>
       </Animated.View>
     </TouchableWithoutFeedback>
   );
@@ -63,37 +77,45 @@ const styles = StyleSheet.create({
     padding: theme.spacing.md,
     alignItems: 'center',
     justifyContent: 'center',
-    minHeight: 140,
+    minHeight: 160,
     marginVertical: theme.spacing.sm,
     marginHorizontal: theme.spacing.xs,
     flex: 1,
   },
-  iconContainer: {
-    width: 62,
-    height: 62,
+  iconCircle: {
+    width: 76,
+    height: 76,
     borderRadius: theme.radius.round,
     backgroundColor: '#FFFFFF',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: theme.spacing.sm,
+    overflow: 'hidden',
+    borderWidth: 2,
+    borderColor: '#FFFFFF',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.12,
     shadowRadius: 4,
     elevation: 3,
   },
-  icon: {
-    fontSize: 34,
+  cardImage: {
+    width: '100%',
+    height: '100%',
   },
-  title: {
-    fontSize: theme.fontSize.md,
+  illustration: {
+    fontSize: 42,
+  },
+  name: {
+    fontSize: theme.fontSize.lg,
     fontWeight: theme.fontWeight.bold,
     textAlign: 'center',
   },
-  subtitle: {
+  soundBadge: {
     fontSize: theme.fontSize.xs,
     color: theme.colors.textMuted,
     marginTop: 2,
     textAlign: 'center',
+    fontWeight: theme.fontWeight.medium,
   },
 });

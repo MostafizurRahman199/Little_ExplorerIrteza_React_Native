@@ -1,58 +1,79 @@
+import * as Speech from 'expo-speech';
+import { Platform } from 'react-native';
+
 /**
- * AudioService - Centralized Audio & Sound Effects Manager for Little Explorer
- * Handles speech pronunciation, animal/object sounds, UI feedback clicks, and ambient audio.
- * Works 100% offline with zero external network dependencies.
+ * AudioService - Centralized Audio & Speech Manager for Little Explorer
+ * Provides clean speech pronunciations (e.g. "Dog", "Cat", "Cow") with zero audio pops.
  */
 
 export class AudioService {
   private static isMuted: boolean = false;
-  private static soundVolume: number = 1.0;
-  private static speechVolume: number = 1.0;
 
   /**
-   * Play UI click or card touch feedback sound
+   * Play UI click feedback - Completely silent
    */
   public static async playClickSound(): Promise<void> {
-    if (this.isMuted) return;
-    try {
-      // Audio feedback abstraction hook for card taps & button presses
-    } catch (error) {
-      // Silently handle audio playback errors offline
-    }
+    // Intentionally empty - No audio or pop sound on click/navigation
   }
 
   /**
-   * Play word pronunciation or item name
+   * Speak item name clearly (e.g. "Dog", "Cat", "Cow")
    */
   public static async playWord(word: string): Promise<void> {
     if (this.isMuted) return;
     try {
-      // Audio feedback abstraction hook for word audio
+      this.speakText(word, 0.85, 1.05);
     } catch (error) {
-      // Silently handle audio playback errors offline
+      // Ignore speech errors
     }
   }
 
   /**
-   * Play item effect sound (animal sound, vehicle horn, soundboard item)
+   * Sound effect hook
    */
-  public static async playSoundEffect(soundKey: string): Promise<void> {
-    if (this.isMuted) return;
-    try {
-      // Audio feedback abstraction hook for sound effect key
-    } catch (error) {
-      // Silently handle audio playback errors offline
+  public static async playSoundEffect(soundText: string): Promise<void> {
+    // Intentionally empty
+  }
+
+  /**
+   * Core speech synthesis trigger without aggressive cancel/stop hardware pop artifacts
+   */
+  private static speakText(text: string, rate: number = 0.85, pitch: number = 1.0): void {
+    if (Platform.OS === 'web' && typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      try {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = rate;
+        utterance.pitch = pitch;
+        utterance.volume = 1.0;
+        window.speechSynthesis.speak(utterance);
+      } catch (err) {
+        // Silently ignore speech errors
+      }
+    } else {
+      try {
+        Speech.speak(text, {
+          rate: rate,
+          pitch: pitch,
+          language: 'en-US',
+        });
+      } catch (err) {
+        // Silently ignore speech errors
+      }
     }
   }
 
   /**
-   * Stop any currently playing audio track
+   * Stop active speech
    */
   public static async stopAllAudio(): Promise<void> {
     try {
-      // Stop all active audio streams
+      if (Platform.OS === 'web' && typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      } else {
+        Speech.stop();
+      }
     } catch (error) {
-      // Silently handle audio stop errors
+      // Ignore stop errors
     }
   }
 
