@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect } from 'react';
 import { TouchableWithoutFeedback, Text, StyleSheet, View, Animated, Image } from 'react-native';
 import { AnimalItem } from '../../types';
 import { theme } from '../../theme';
-import { AudioService } from '../../services';
 
 interface AnimalCardProps {
   animal: AnimalItem;
@@ -48,7 +47,10 @@ export const AnimalCard: React.FC<AnimalCardProps> = ({ animal, onPress }) => {
       <Animated.View
         style={[
           styles.card,
-          { backgroundColor: animal.bgColor, transform: [{ scale: scaleAnim }] },
+          {
+            backgroundColor: animal.bgColor,
+            transform: [{ scale: scaleAnim }],
+          },
           theme.shadows.medium,
         ]}
       >
@@ -65,7 +67,6 @@ export const AnimalCard: React.FC<AnimalCardProps> = ({ animal, onPress }) => {
           )}
         </View>
         <Text style={[styles.name, { color: animal.accentColor }]}>{animal.name}</Text>
-        <Text style={styles.soundBadge}>{animal.soundText}</Text>
       </Animated.View>
     </TouchableWithoutFeedback>
   );
@@ -73,25 +74,30 @@ export const AnimalCard: React.FC<AnimalCardProps> = ({ animal, onPress }) => {
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: theme.radius.lg,
+    borderRadius: theme.radius.xl,
     padding: theme.spacing.md,
     alignItems: 'center',
     justifyContent: 'center',
-    minHeight: 160,
+    minHeight: 170,
     marginVertical: theme.spacing.sm,
     marginHorizontal: theme.spacing.xs,
     flex: 1,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.12,
+    shadowRadius: 6,
+    elevation: 4,
   },
   iconCircle: {
-    width: 76,
-    height: 76,
+    width: 84,
+    height: 84,
     borderRadius: theme.radius.round,
     backgroundColor: '#FFFFFF',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: theme.spacing.sm,
     overflow: 'hidden',
-    borderWidth: 2,
+    borderWidth: 3,
     borderColor: '#FFFFFF',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -104,18 +110,29 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   illustration: {
-    fontSize: 42,
+    fontSize: 44,
   },
   name: {
     fontSize: theme.fontSize.lg,
-    fontWeight: theme.fontWeight.bold,
+    fontWeight: theme.fontWeight.extraBold,
     textAlign: 'center',
+    letterSpacing: 0.5,
+  },
+  soundBadgeContainer: {
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: theme.spacing.sm,
+    paddingVertical: 3,
+    borderRadius: theme.radius.round,
+    marginTop: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
   },
   soundBadge: {
     fontSize: theme.fontSize.xs,
-    color: theme.colors.textMuted,
-    marginTop: 2,
     textAlign: 'center',
-    fontWeight: theme.fontWeight.medium,
+    fontWeight: theme.fontWeight.bold,
   },
 });
