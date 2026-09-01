@@ -16,6 +16,7 @@ export interface AnimalItem {
   displayName: string;
   illustration: string;
   imageUrl: string;
+  images?: string[];
   soundText: string;
   pronunciationText: string;
   bgColor: string;

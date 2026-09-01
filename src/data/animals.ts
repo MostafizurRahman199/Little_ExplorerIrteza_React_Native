@@ -6,7 +6,14 @@ export const ANIMALS: AnimalItem[] = [
     name: 'Dog',
     displayName: 'DOG',
     illustration: '🐶',
-    imageUrl: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=600&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80',
+
+      'https://images.unsplash.com/photo-1530281700549-e82e7bf110d6?q=80&w=688&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+
+      'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=600&q=80',
+    ],
     soundText: 'Woof! Woof!',
     pronunciationText: 'Dog',
     bgColor: '#FFF3E0',
@@ -19,7 +26,12 @@ export const ANIMALS: AnimalItem[] = [
     name: 'Cat',
     displayName: 'CAT',
     illustration: '🐱',
-    imageUrl: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=600&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1533743983669-94fa5c4338ec?auto=format&fit=crop&w=600&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1573865526739-10659fec78a5?q=80&w=715&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?auto=format&fit=crop&w=600&q=80',
+    ],
     soundText: 'Meow! Meow!',
     pronunciationText: 'Cat',
     bgColor: '#FFF8E1',
@@ -32,7 +44,12 @@ export const ANIMALS: AnimalItem[] = [
     name: 'Cow',
     displayName: 'COW',
     illustration: '🐮',
-    imageUrl: 'https://images.unsplash.com/photo-1527153857715-3908f2bae5e8?auto=format&fit=crop&w=600&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1570042225831-d98fa7577f1e?auto=format&fit=crop&w=600&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1593768697824-f31b967e6c55?q=80&w=689&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://images.unsplash.com/photo-1527153857715-3908f2bae5e8?q=80&w=788&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://images.unsplash.com/photo-1595365691689-6b7b4e1970cf?q=80&w=765&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    ],
     soundText: 'Moo! Moo!',
     pronunciationText: 'Cow',
     bgColor: '#E8F5E9',
@@ -45,7 +62,12 @@ export const ANIMALS: AnimalItem[] = [
     name: 'Rabbit',
     displayName: 'RABBIT',
     illustration: '🐰',
-    imageUrl: 'https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?auto=format&fit=crop&w=600&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1535241749838-299277b6305f?auto=format&fit=crop&w=600&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1535241749838-299277b6305f?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1518796745738-41048802f99a?auto=format&fit=crop&w=600&q=80',
+    ],
     soundText: 'Hop! Hop!',
     pronunciationText: 'Rabbit',
     bgColor: '#F3E5F5',
@@ -58,7 +80,14 @@ export const ANIMALS: AnimalItem[] = [
     name: 'Duck',
     displayName: 'DUCK',
     illustration: '🦆',
-    imageUrl: 'https://hips.hearstapps.com/hmg-prod/images/call-duck-royalty-free-image-1732105274.jpg?crop=0.670xw:1.00xh;0.0138xw,0',
+    imageUrl: 'https://images.unsplash.com/photo-1555852095-64e7428df0fa?auto=format&fit=crop&w=600&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1563409236302-8442b5e644df?q=80&w=688&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+
+      'https://images.unsplash.com/photo-1459682687441-7761439a709d?q=80&w=1240&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+
+      'https://plus.unsplash.com/premium_photo-1667573071557-218e3b6f4154?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    ],
     soundText: 'Quack! Quack!',
     pronunciationText: 'Duck',
     bgColor: '#E0F7FA',
@@ -71,7 +100,12 @@ export const ANIMALS: AnimalItem[] = [
     name: 'Lion',
     displayName: 'LION',
     illustration: '🦁',
-    imageUrl: 'https://images.unsplash.com/photo-1614027164847-1b28cfe1df60?auto=format&fit=crop&w=600&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1546182990-dffeafbe841d?auto=format&fit=crop&w=600&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1552410260-0fd9b577afa6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://images.unsplash.com/photo-1614027164847-1b28cfe1df60?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1534188753412-3e26d0d618d6?auto=format&fit=crop&w=600&q=80',
+    ],
     soundText: 'Roar! Roar!',
     pronunciationText: 'Lion',
     bgColor: '#FFF3E0',
@@ -85,6 +119,13 @@ export const ANIMALS: AnimalItem[] = [
     displayName: 'ELEPHANT',
     illustration: '🐘',
     imageUrl: 'https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?auto=format&fit=crop&w=600&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?auto=format&fit=crop&w=600&q=80',
+
+      'https://plus.unsplash.com/premium_photo-1661810056990-57be781caa2d?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+
+      'https://images.unsplash.com/photo-1564760055775-d63b17a55c44?q=80&w=1177&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    ],
     soundText: 'Pawoo! Pawoo!',
     pronunciationText: 'Elephant',
     bgColor: '#E8EAF6',
@@ -98,6 +139,13 @@ export const ANIMALS: AnimalItem[] = [
     displayName: 'MONKEY',
     illustration: '🐒',
     imageUrl: 'https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?auto=format&fit=crop&w=600&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?auto=format&fit=crop&w=600&q=80',
+
+      'https://images.unsplash.com/flagged/photo-1566127992631-137a642a90f4?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+
+      'https://plus.unsplash.com/premium_photo-1661844541352-3b97b83f3edb?q=80&w=705&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    ],
     soundText: 'Ooh Ooh Aah Aah!',
     pronunciationText: 'Monkey',
     bgColor: '#EFEBE9',
@@ -111,6 +159,13 @@ export const ANIMALS: AnimalItem[] = [
     displayName: 'PANDA',
     illustration: '🐼',
     imageUrl: 'https://images.unsplash.com/photo-1564349683136-77e08dba1ef9?auto=format&fit=crop&w=600&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1597953601374-1ff2d5640c85?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+
+      'https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?q=80&w=1172&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+
+      'https://images.unsplash.com/photo-1528359645462-5ff224bf906e?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    ],
     soundText: 'Yum! Yum!',
     pronunciationText: 'Panda',
     bgColor: '#ECEFF1',
@@ -123,7 +178,14 @@ export const ANIMALS: AnimalItem[] = [
     name: 'Bear',
     displayName: 'BEAR',
     illustration: '🐻',
-    imageUrl: 'https://www.cmzoo.org/wp-content/uploads/Grizzly-bear-750x500.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?auto=format&fit=crop&w=600&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1589656966895-2f33e7653819?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+
+      'https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+
+      'https://images.unsplash.com/photo-1568162603664-fcd658421851?q=80&w=1081&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    ],
     soundText: 'Grrr! Grrr!',
     pronunciationText: 'Bear',
     bgColor: '#EFEBE9',
@@ -137,6 +199,13 @@ export const ANIMALS: AnimalItem[] = [
     displayName: 'TIGER',
     illustration: '🐯',
     imageUrl: 'https://images.unsplash.com/photo-1561731216-c3a4d99437d5?auto=format&fit=crop&w=600&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1561731216-c3a4d99437d5?auto=format&fit=crop&w=600&q=80',
+
+      'https://plus.unsplash.com/premium_photo-1664302954356-a79b02fe66b8?q=80&w=1168&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+
+      'https://images.unsplash.com/photo-1549480017-d76466a4b7e8?auto=format&fit=crop&w=600&q=80',
+    ],
     soundText: 'Grrr! Grrr!',
     pronunciationText: 'Tiger',
     bgColor: '#FFF3E0',
@@ -150,6 +219,13 @@ export const ANIMALS: AnimalItem[] = [
     displayName: 'GIRAFFE',
     illustration: '🦒',
     imageUrl: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50?auto=format&fit=crop&w=600&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1547721064-da6cfb341d50?auto=format&fit=crop&w=600&q=80',
+
+      'https://images.unsplash.com/photo-1612358405970-e1aeba9d76c2?q=80&w=1205&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+
+      'https://plus.unsplash.com/premium_photo-1661813434310-98cca4c9135e?q=80&w=1167&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    ],
     soundText: 'Munch! Munch!',
     pronunciationText: 'Giraffe',
     bgColor: '#FFF8E1',
@@ -163,6 +239,11 @@ export const ANIMALS: AnimalItem[] = [
     displayName: 'ZEBRA',
     illustration: '🦓',
     imageUrl: 'https://images.unsplash.com/photo-1501706362039-c06b2d715385?auto=format&fit=crop&w=600&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1501706362039-c06b2d715385?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1526319238109-524eecb9b913?q=80&w=1124&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://images.unsplash.com/photo-1598755257130-c2aaca1f061c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    ],
     soundText: 'Neigh! Neigh!',
     pronunciationText: 'Zebra',
     bgColor: '#F5F5F5',
@@ -176,6 +257,13 @@ export const ANIMALS: AnimalItem[] = [
     displayName: 'HORSE',
     illustration: '🐴',
     imageUrl: 'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?auto=format&fit=crop&w=600&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?auto=format&fit=crop&w=600&q=80',
+
+      'https://images.unsplash.com/photo-1650571244617-44f6db726039?q=80&w=858&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+
+      'https://images.unsplash.com/photo-1553284965-e2815db2e5a0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    ],
     soundText: 'Neigh! Neigh!',
     pronunciationText: 'Horse',
     bgColor: '#EFEBE9',
@@ -188,7 +276,14 @@ export const ANIMALS: AnimalItem[] = [
     name: 'Sheep',
     displayName: 'SHEEP',
     illustration: '🐑',
-    imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSN1LGBbjRY1dWFC3tQPdWHqrO37HfcuF6tqDyOq7EeLg&s=10',
+    imageUrl: 'https://images.unsplash.com/photo-1484557052118-f32bd25b45b5?auto=format&fit=crop&w=600&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1484557985045-edf25e08da73?q=80&w=1073&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+
+      'https://images.unsplash.com/photo-1554755209-85e44182e019?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+
+      'https://images.unsplash.com/photo-1532362091753-d53721a3e82c?q=80&w=1089&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    ],
     soundText: 'Baa! Baa!',
     pronunciationText: 'Sheep',
     bgColor: '#FAFAFA',
@@ -201,7 +296,14 @@ export const ANIMALS: AnimalItem[] = [
     name: 'Frog',
     displayName: 'FROG',
     illustration: '🐸',
-    imageUrl: 'https://ucarecdn.com/c772b891-4e98-491c-97fd-c864c933aa5d/-/format/auto/-/preview/3000x3000/-/quality/lighter/',
+    imageUrl: 'https://images.unsplash.com/photo-1559253664-ab241cf267fc?auto=format&fit=crop&w=600&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1559253664-ca249d4608c6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+
+      'https://plus.unsplash.com/premium_photo-1687288639271-96f5772138f2?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+
+      'https://images.unsplash.com/photo-1550853123-b81beb0b1449?q=80&w=1034&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    ],
     soundText: 'Ribbit! Ribbit!',
     pronunciationText: 'Frog',
     bgColor: '#E8F5E9',
@@ -214,7 +316,14 @@ export const ANIMALS: AnimalItem[] = [
     name: 'Chicken',
     displayName: 'CHICKEN',
     illustration: '🐔',
-    imageUrl: 'https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=600&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1563281577-a7be47e20db9?auto=format&fit=crop&w=600&q=80',
+    images: [
+      'https://plus.unsplash.com/premium_photo-1661963268465-6e586f17855c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+
+      'https://images.unsplash.com/photo-1588597989061-b60ad0eefdbf?q=80&w=1169&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+
+      'https://images.unsplash.com/photo-1545251765-6aad90d25972?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    ],
     soundText: 'Cluck! Cluck!',
     pronunciationText: 'Chicken',
     bgColor: '#FFFDE7',
@@ -227,7 +336,12 @@ export const ANIMALS: AnimalItem[] = [
     name: 'Bird',
     displayName: 'BIRD',
     illustration: '🐦',
-    imageUrl: 'https://images.unsplash.com/photo-1522926193341-e9ffd686c60f?auto=format&fit=crop&w=600&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1444464666168-49d633b86797?auto=format&fit=crop&w=600&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1444464666168-49d633b86797?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1522926193341-e9ffd686c60f?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1552728089-57bdde30beb3?auto=format&fit=crop&w=600&q=80',
+    ],
     soundText: 'Chirp! Chirp!',
     pronunciationText: 'Bird',
     bgColor: '#E1F5FE',
@@ -240,7 +354,12 @@ export const ANIMALS: AnimalItem[] = [
     name: 'Fish',
     displayName: 'FISH',
     illustration: '🐟',
-    imageUrl: 'https://images.unsplash.com/photo-1524704654690-b56c05c78a00?auto=format&fit=crop&w=600&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1535591273668-578e31182c4f?auto=format&fit=crop&w=600&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1535591273668-578e31182c4f?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1524704654690-b56c05c78a00?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?auto=format&fit=crop&w=600&q=80',
+    ],
     soundText: 'Blub! Blub!',
     pronunciationText: 'Fish',
     bgColor: '#E0F7FA',
@@ -254,6 +373,10 @@ export const ANIMALS: AnimalItem[] = [
     displayName: 'DOLPHIN',
     illustration: '🐬',
     imageUrl: 'https://images.unsplash.com/photo-1570481662006-a3a1374699e8?auto=format&fit=crop&w=600&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1570481662006-a3a1374699e8?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1523670982602-6bb44fd1586e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    ],
     soundText: 'Click! Click!',
     pronunciationText: 'Dolphin',
     bgColor: '#E0F2F1',

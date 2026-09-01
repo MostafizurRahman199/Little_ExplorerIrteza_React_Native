@@ -107,15 +107,22 @@
 ### ✅ Phase 3 — Animal Learning Experience
 - **Date Completed:** 2026-09-01
 - **Key Deliverables & Code Implemented:**
-  - **Expanded 20-Animal Data Model (`src/data/animals.ts` & `src/types/animal.ts`):**
+  - **Expanded 20-Animal Data Model & Multi-Image Gallery (`src/data/animals.ts` & `src/types/animal.ts`):**
     - Built comprehensive dataset for **20 animals**: Dog 🐶, Cat 🐱, Cow 🐮, Rabbit 🐰, Duck 🦆, Lion 🦁, Elephant 🐘, Monkey 🐒, Panda 🐼, Bear 🐻, Tiger 🐯, Giraffe 🦒, Zebra 🦓, Horse 🐴, Sheep 🐑, Frog 🐸, Chicken 🐔, Bird 🐦, Fish 🐟, Dolphin 🐬.
-    - Embedded high-definition real animal photographs for every card with fallback to emoji illustrations.
+    - Multi-photo gallery per animal: Embedded 3 curated high-resolution open-source Unsplash photos per animal.
+  - **Interactive Photo Rotation on Tap (`AnimalDetail/index.tsx`):**
+    - Tapping an animal photo cycles to the next photo of that animal (`📸 1/3` ➔ `📸 2/3` ➔ `📸 3/3`), plays animation effects, and pronounces the animal name out loud.
   - **Offline Voice Speech Engine (`src/services/AudioService.ts`):**
     - Implemented clean speech synthesis (`expo-speech` & Web `SpeechSynthesis`) pronouncing exact animal names out loud (*"Dog"*, *"Cat"*, *"Cow"*, *"Panda"*, *"Rabbit"*).
     - Removed hardware audio pop artifacts during screen navigation and button taps.
   - **Centered Detail Poster Layout (`src/components/AnimalDetail/index.tsx`):**
     - Centered Animal Title (`"DOG"`), Speech Button (`🔊 Say "Dog"`), 270 × 270 dp photo frame, and Prev/Next buttons with zero awkward vertical spacing.
     - Added `useEffect` state resetting to ensure real photo URLs refresh cleanly when navigating between animals.
+  - **Automatic Spoken Audio on Image Change:**
+    - Tapping `Next ➡️`, `⬅️ Prev`, selecting a grid card, or auto play slideshow instantly pronounces the newly displayed item name out loud.
+  - **Auto Play Slideshow Mode (`AnimalsScreen.tsx`):**
+    - Header `Play ▶` / `Stop ⏹` toggle button.
+    - Automatically advances through all 20 animals every 3.5 seconds in an infinite loop with spoken voice playback until `Stop ⏹` or `Grid` is pressed.
   - **Custom Physical Animations (`Animated` API):**
     - `bounce` & `hop`: Spring scale bounce up to 1.15x (Dog, Monkey, Rabbit, Frog).
     - `fly`: Vertical translateY floating sequence (Bird).

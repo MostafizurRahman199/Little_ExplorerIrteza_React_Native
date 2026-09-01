@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -15,12 +15,46 @@ interface AnimalsScreenProps {
 
 export const AnimalsScreen: React.FC<AnimalsScreenProps> = ({ navigation }) => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+
+  // Auto-play slideshow timer effect
+  // NOTE: Audio is NOT played here — AnimalDetail's useEffect([animal.id])
+  // already speaks the name whenever the displayed animal changes.
+  // Playing here too would cause a double-sound on every slide advance.
+  useEffect(() => {
+    let timer: any;
+    if (isPlaying) {
+      if (selectedIndex === null) {
+        setSelectedIndex(0);
+      } else {
+        timer = setTimeout(() => {
+          setSelectedIndex((prevIndex) => (prevIndex !== null ? (prevIndex + 1) % ANIMALS.length : 0));
+        }, 3500);
+      }
+    }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [isPlaying, selectedIndex]);
+
+  const togglePlay = () => {
+    if (isPlaying) {
+      setIsPlaying(false);
+    } else {
+      if (selectedIndex === null) {
+        setSelectedIndex(0);
+      }
+      setIsPlaying(true);
+    }
+  };
 
   const handleSelectAnimal = (index: number) => {
+    setIsPlaying(false);
     setSelectedIndex(index);
   };
 
   const handleBackToGrid = () => {
+    setIsPlaying(false);
     if (selectedIndex !== null) {
       setSelectedIndex(null);
     } else {
@@ -29,12 +63,14 @@ export const AnimalsScreen: React.FC<AnimalsScreenProps> = ({ navigation }) => {
   };
 
   const handlePrev = () => {
+    setIsPlaying(false);
     if (selectedIndex !== null && selectedIndex > 0) {
       setSelectedIndex(selectedIndex - 1);
     }
   };
 
   const handleNext = () => {
+    setIsPlaying(false);
     if (selectedIndex !== null && selectedIndex < ANIMALS.length - 1) {
       setSelectedIndex(selectedIndex + 1);
     }
@@ -47,16 +83,26 @@ export const AnimalsScreen: React.FC<AnimalsScreenProps> = ({ navigation }) => {
       {/* Top Header Row */}
       <View style={styles.headerRow}>
         <BackButton onPress={handleBackToGrid} title={selectedIndex !== null ? 'Grid' : 'Back'} />
-        <Text style={styles.headerTitle}>🐶 Animal Friends</Text>
-        {selectedIndex !== null ? (
-          <Text style={styles.counterText}>
-            {selectedIndex + 1} / {ANIMALS.length}
-          </Text>
-        ) : (
-          <TouchableOpacity onPress={() => setSelectedIndex(0)} style={styles.playAllBadge}>
-            <Text style={styles.playAllText}>Play ▶</Text>
+        
+        <Text style={styles.headerTitle}>Animals</Text>
+
+        <View style={styles.headerActions}>
+          {selectedIndex !== null && (
+            <Text style={styles.counterText}>
+              {selectedIndex + 1} / {ANIMALS.length}
+            </Text>
+          )}
+
+          <TouchableOpacity
+            onPress={togglePlay}
+            style={[styles.playBadge, isPlaying && styles.stopBadge]}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.playBadgeText}>
+              {isPlaying ? 'Stop ⏹' : 'Play ▶'}
+            </Text>
           </TouchableOpacity>
-        )}
+        </View>
       </View>
 
       {/* Main Content Area */}
@@ -103,22 +149,32 @@ const styles = StyleSheet.create({
     fontWeight: theme.fontWeight.extraBold,
     color: theme.colors.textDark,
   },
+  headerActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
   counterText: {
-    fontSize: theme.fontSize.sm,
+    fontSize: theme.fontSize.xs,
     fontWeight: theme.fontWeight.bold,
     color: theme.colors.textMuted,
     backgroundColor: '#FFFFFF',
     paddingHorizontal: theme.spacing.sm,
-    paddingVertical: 4,
+    paddingVertical: 5,
     borderRadius: theme.radius.round,
   },
-  playAllBadge: {
+  playBadge: {
     backgroundColor: theme.colors.accentOrange,
     paddingHorizontal: theme.spacing.md,
     paddingVertical: 6,
     borderRadius: theme.radius.round,
+    minWidth: 70,
+    alignItems: 'center',
   },
-  playAllText: {
+  stopBadge: {
+    backgroundColor: '#E53935', // Vibrant red when playing
+  },
+  playBadgeText: {
     fontSize: theme.fontSize.xs,
     fontWeight: theme.fontWeight.bold,
     color: '#FFFFFF',

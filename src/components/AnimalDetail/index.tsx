@@ -24,19 +24,31 @@ export const AnimalDetail: React.FC<AnimalDetailProps> = ({
   const sparkleAnim = useRef(new Animated.Value(0)).current;
   const [activeSpeech, setActiveSpeech] = useState<string | null>(null);
   const [imageError, setImageError] = useState<boolean>(false);
+  const [currentPhotoIndex, setCurrentPhotoIndex] = useState<number>(0);
 
-  // Reset image error state whenever animal changes so real photos always load!
+  // List of photos available for this animal (defaults to 3 images or fallback)
+  const photoList = animal.images && animal.images.length > 0 ? animal.images : [animal.imageUrl];
+
+  // When new animal comes, reset photo index and speak name
   useEffect(() => {
     setImageError(false);
-    setActiveSpeech(null);
+    setCurrentPhotoIndex(0);
+    setActiveSpeech(animal.name);
+    AudioService.playWord(animal.name);
   }, [animal.id]);
 
   const handleAnimalTap = () => {
-    // Speak animal name out loud clearly (e.g. "Dog")
+    // 1. Rotate to next photo for this animal
+    if (photoList.length > 1) {
+      setImageError(false);
+      setCurrentPhotoIndex((prev) => (prev + 1) % photoList.length);
+    }
+
+    // 2. Speak animal name out loud clearly (e.g. "Dog")
     AudioService.playWord(animal.name);
     setActiveSpeech(animal.name);
 
-    // Trigger celebration sparkles
+    // 3. Trigger celebration sparkles
     sparkleAnim.setValue(0);
     Animated.sequence([
       Animated.timing(sparkleAnim, {
@@ -51,7 +63,7 @@ export const AnimalDetail: React.FC<AnimalDetailProps> = ({
       }),
     ]).start();
 
-    // Trigger animal-specific physical animation
+    // 4. Trigger animal-specific physical animation
     switch (animal.animationType) {
       case 'bounce':
       case 'hop':
@@ -140,6 +152,8 @@ export const AnimalDetail: React.FC<AnimalDetailProps> = ({
     }
   };
 
+  const activePhotoUri = photoList[currentPhotoIndex] || animal.imageUrl;
+
   return (
     <View style={[styles.container, { backgroundColor: animal.bgColor }]}>
       {/* Sparkle Celebration Effects */}
@@ -161,16 +175,16 @@ export const AnimalDetail: React.FC<AnimalDetailProps> = ({
           </Text>
         </TouchableOpacity>
 
-        {/* 3. Large Cute Animal Image */}
+        {/* 3. Large Cute Animal Image (Tap to rotate photo!) */}
         <TouchableOpacity
           activeOpacity={0.9}
           onPress={handleAnimalTap}
           style={styles.illustrationCard}
         >
           <Animated.View style={[styles.imageWrapper, getTransformStyle(), theme.shadows.medium]}>
-            {!imageError && animal.imageUrl ? (
+            {!imageError && activePhotoUri ? (
               <Image
-                source={{ uri: animal.imageUrl }}
+                source={{ uri: activePhotoUri }}
                 style={styles.realAnimalImage}
                 resizeMode="cover"
                 onError={() => setImageError(true)}
@@ -178,6 +192,15 @@ export const AnimalDetail: React.FC<AnimalDetailProps> = ({
             ) : (
               <View style={styles.fallbackCircle}>
                 <Text style={styles.illustration}>{animal.illustration}</Text>
+              </View>
+            )}
+
+            {/* Photo Counter Pill Indicator */}
+            {photoList.length > 1 && (
+              <View style={styles.photoCountBadge}>
+                <Text style={styles.photoCountText}>
+                  📸 {currentPhotoIndex + 1}/{photoList.length}
+                </Text>
               </View>
             )}
           </Animated.View>
@@ -278,6 +301,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 5,
     borderColor: '#FFFFFF',
+    position: 'relative',
   },
   realAnimalImage: {
     width: '100%',
@@ -292,6 +316,20 @@ const styles = StyleSheet.create({
   },
   illustration: {
     fontSize: 120,
+  },
+  photoCountBadge: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.65)',
+    paddingHorizontal: theme.spacing.sm,
+    paddingVertical: 3,
+    borderRadius: theme.radius.round,
+  },
+  photoCountText: {
+    fontSize: 11,
+    fontWeight: theme.fontWeight.bold,
+    color: '#FFFFFF',
   },
   navigationRow: {
     flexDirection: 'row',
