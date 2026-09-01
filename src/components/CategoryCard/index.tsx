@@ -1,7 +1,8 @@
-import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, View } from 'react-native';
+import React, { useRef } from 'react';
+import { TouchableWithoutFeedback, Text, StyleSheet, View, Animated } from 'react-native';
 import { CategoryItem } from '../../types';
 import { theme } from '../../theme';
+import { AudioService } from '../../services';
 
 interface CategoryCardProps {
   category: CategoryItem;
@@ -9,22 +10,51 @@ interface CategoryCardProps {
 }
 
 export const CategoryCard: React.FC<CategoryCardProps> = ({ category, onPress }) => {
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+
+  const handlePressIn = () => {
+    Animated.spring(scaleAnim, {
+      toValue: 0.93,
+      useNativeDriver: true,
+      speed: 24,
+      bounciness: 8,
+    }).start();
+  };
+
+  const handlePressOut = () => {
+    Animated.spring(scaleAnim, {
+      toValue: 1,
+      useNativeDriver: true,
+      speed: 20,
+      bounciness: 12,
+    }).start();
+  };
+
+  const handlePress = () => {
+    AudioService.playClickSound();
+    onPress();
+  };
+
   return (
-    <TouchableOpacity
-      activeOpacity={0.85}
-      onPress={onPress}
-      style={[
-        styles.card,
-        { backgroundColor: category.bgColor },
-        theme.shadows.medium,
-      ]}
+    <TouchableWithoutFeedback
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
+      onPress={handlePress}
     >
-      <View style={styles.iconContainer}>
-        <Text style={styles.icon}>{category.icon}</Text>
-      </View>
-      <Text style={[styles.title, { color: category.accentColor }]}>{category.title}</Text>
-      <Text style={styles.subtitle}>{category.subtitle}</Text>
-    </TouchableOpacity>
+      <Animated.View
+        style={[
+          styles.card,
+          { backgroundColor: category.bgColor, transform: [{ scale: scaleAnim }] },
+          theme.shadows.medium,
+        ]}
+      >
+        <View style={styles.iconContainer}>
+          <Text style={styles.icon}>{category.icon}</Text>
+        </View>
+        <Text style={[styles.title, { color: category.accentColor }]}>{category.title}</Text>
+        <Text style={styles.subtitle}>{category.subtitle}</Text>
+      </Animated.View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -40,8 +70,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   iconContainer: {
-    width: 60,
-    height: 60,
+    width: 62,
+    height: 62,
     borderRadius: theme.radius.round,
     backgroundColor: '#FFFFFF',
     alignItems: 'center',
@@ -51,10 +81,10 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 2,
+    elevation: 3,
   },
   icon: {
-    fontSize: 32,
+    fontSize: 34,
   },
   title: {
     fontSize: theme.fontSize.md,

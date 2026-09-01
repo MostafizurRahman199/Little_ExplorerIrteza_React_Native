@@ -14,6 +14,7 @@ export const BackButton: React.FC<BackButtonProps> = ({ onPress, title = 'Back' 
       onPress={onPress}
       style={[styles.button, theme.shadows.small]}
     >
+      <Text style={styles.arrow}>👈</Text>
       <Text style={styles.title}>{title}</Text>
     </TouchableOpacity>
   );
@@ -23,17 +24,18 @@ const styles = StyleSheet.create({
   button: {
     flexDirection: 'row',
     alignItems: 'center',
+    alignSelf: 'flex-start', // Fixes full-width stretching
     backgroundColor: '#FFFFFF',
     paddingHorizontal: theme.spacing.md,
-    paddingVertical: theme.spacing.sm,
-    borderRadius: theme.radius.md,
+    paddingVertical: theme.spacing.xs,
+    borderRadius: theme.radius.round,
     minHeight: 48,
+    borderWidth: 1.5,
+    borderColor: '#E8ECF2',
   },
   arrow: {
-    fontSize: theme.fontSize.lg,
-    fontWeight: theme.fontWeight.bold,
-    color: theme.colors.primary,
-    marginRight: theme.spacing.xs,
+    fontSize: 20,
+    marginRight: 6,
   },
   title: {
     fontSize: theme.fontSize.sm,

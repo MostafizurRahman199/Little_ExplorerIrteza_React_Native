@@ -1,2 +1,1 @@
-// Centralized audio and app services placeholder
-export {};
+export * from './AudioService';

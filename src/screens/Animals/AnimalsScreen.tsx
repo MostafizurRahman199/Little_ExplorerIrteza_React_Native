@@ -1,27 +1,24 @@
 import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types/navigation';
 import { BackButton } from '../../components';
 import { theme } from '../../theme';
 
-type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Animals'>;
+type AnimalsScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Animals'>;
 
-interface Props {
-  navigation: NavigationProp;
+interface AnimalsScreenProps {
+  navigation: AnimalsScreenNavigationProp;
 }
 
-export const AnimalsScreen: React.FC<Props> = ({ navigation }) => {
+export const AnimalsScreen: React.FC<AnimalsScreenProps> = ({ navigation }) => {
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <BackButton onPress={() => navigation.goBack()} />
-        <Text style={styles.headerTitle}>🐶 Animals</Text>
-      </View>
-      <View style={styles.body}>
-        <Text style={styles.emoji}>🐶 🐱 🐮 🦁 🐘</Text>
-        <Text style={styles.title}>Animal Learning</Text>
-        <Text style={styles.subtitle}>Phase 3 Module Ready</Text>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.categoryAnimals }]}>
+      <BackButton onPress={() => navigation.goBack()} />
+      <View style={styles.content}>
+        <Text style={styles.title}>🐶 Animals</Text>
+        <Text style={styles.subtitle}>Meet your friendly animal friends!</Text>
       </View>
     </SafeAreaView>
   );
@@ -30,37 +27,22 @@ export const AnimalsScreen: React.FC<Props> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.categoryAnimals,
+    paddingHorizontal: theme.spacing.screenPadding,
+    paddingTop: theme.spacing.md,
   },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: theme.spacing.md,
-  },
-  headerTitle: {
-    fontSize: theme.fontSize.lg,
-    fontWeight: theme.fontWeight.bold,
-    marginLeft: theme.spacing.md,
-    color: theme.colors.primary,
-  },
-  body: {
+  content: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: theme.spacing.lg,
-  },
-  emoji: {
-    fontSize: 60,
-    marginBottom: theme.spacing.md,
   },
   title: {
-    fontSize: theme.fontSize.xl,
-    fontWeight: theme.fontWeight.bold,
+    fontSize: theme.fontSize.xxl,
+    fontWeight: theme.fontWeight.extraBold,
     color: theme.colors.textDark,
   },
   subtitle: {
     fontSize: theme.fontSize.md,
     color: theme.colors.textMuted,
-    marginTop: theme.spacing.xs,
+    marginTop: theme.spacing.sm,
   },
 });

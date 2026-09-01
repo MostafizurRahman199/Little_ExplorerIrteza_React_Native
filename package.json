@@ -24,7 +24,8 @@
     "start": "EXPO_NO_DEVTOOLS=1 node node_modules/expo/bin/cli start",
     "android": "EXPO_NO_DEVTOOLS=1 node node_modules/expo/bin/cli start --android",
     "ios": "EXPO_NO_DEVTOOLS=1 node node_modules/expo/bin/cli start --ios",
-    "web": "EXPO_NO_DEVTOOLS=1 node node_modules/expo/bin/cli start --web"
+    "web": "EXPO_NO_DEVTOOLS=1 node node_modules/expo/bin/cli start --web",
+    "clear": "EXPO_NO_DEVTOOLS=1 node node_modules/expo/bin/cli start -c"
   },
   "private": true
 }

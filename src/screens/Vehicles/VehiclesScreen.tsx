@@ -1,32 +1,48 @@
 import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types/navigation';
 import { BackButton } from '../../components';
 import { theme } from '../../theme';
 
-type Props = { navigation: NativeStackNavigationProp<RootStackParamList, 'Vehicles'> };
+type VehiclesScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Vehicles'>;
 
-export const VehiclesScreen: React.FC<Props> = ({ navigation }) => (
-  <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.categoryVehicles }]}>
-    <View style={styles.header}>
+interface VehiclesScreenProps {
+  navigation: VehiclesScreenNavigationProp;
+}
+
+export const VehiclesScreen: React.FC<VehiclesScreenProps> = ({ navigation }) => {
+  return (
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.categoryVehicles }]}>
       <BackButton onPress={() => navigation.goBack()} />
-      <Text style={styles.headerTitle}>🚗 Vehicles</Text>
-    </View>
-    <View style={styles.body}>
-      <Text style={styles.emoji}>🚗 🚌 🚂 ✈️ 🚁</Text>
-      <Text style={styles.title}>Vehicle World</Text>
-      <Text style={styles.subtitle}>Phase 7 Module Ready</Text>
-    </View>
-  </SafeAreaView>
-);
+      <View style={styles.content}>
+        <Text style={styles.title}>🚗 Vehicles</Text>
+        <Text style={styles.subtitle}>Beep beep! Cars, buses & trains!</Text>
+      </View>
+    </SafeAreaView>
+  );
+};
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  header: { flexDirection: 'row', alignItems: 'center', padding: theme.spacing.md },
-  headerTitle: { fontSize: theme.fontSize.lg, fontWeight: theme.fontWeight.bold, marginLeft: theme.spacing.md, color: theme.colors.accentOrange },
-  body: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: theme.spacing.lg },
-  emoji: { fontSize: 60, marginBottom: theme.spacing.md },
-  title: { fontSize: theme.fontSize.xl, fontWeight: theme.fontWeight.bold, color: theme.colors.textDark },
-  subtitle: { fontSize: theme.fontSize.md, color: theme.colors.textMuted, marginTop: theme.spacing.xs },
+  container: {
+    flex: 1,
+    paddingHorizontal: theme.spacing.screenPadding,
+    paddingTop: theme.spacing.md,
+  },
+  content: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: theme.fontSize.xxl,
+    fontWeight: theme.fontWeight.extraBold,
+    color: theme.colors.textDark,
+  },
+  subtitle: {
+    fontSize: theme.fontSize.md,
+    color: theme.colors.textMuted,
+    marginTop: theme.spacing.sm,
+  },
 });
