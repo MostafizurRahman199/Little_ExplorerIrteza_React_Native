@@ -1,5 +1,6 @@
 export * from './navigation';
 export * from './animal';
+export * from './abc';
 
 export interface CategoryItem {
   id: keyof import('./navigation').RootStackParamList;
