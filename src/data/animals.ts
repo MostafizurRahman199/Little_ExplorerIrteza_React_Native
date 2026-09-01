@@ -58,7 +58,7 @@ export const ANIMALS: AnimalItem[] = [
     name: 'Duck',
     displayName: 'DUCK',
     illustration: '🦆',
-    imageUrl: 'https://images.unsplash.com/photo-1555852095-64e7428df0fa?auto=format&fit=crop&w=600&q=80',
+    imageUrl: 'https://hips.hearstapps.com/hmg-prod/images/call-duck-royalty-free-image-1732105274.jpg?crop=0.670xw:1.00xh;0.0138xw,0',
     soundText: 'Quack! Quack!',
     pronunciationText: 'Duck',
     bgColor: '#E0F7FA',
