@@ -95,7 +95,6 @@
     - Staggered screen entrance animation (`fadeAnim` + `slideAnim`) on mount.
   - **Tactile Card Animations & Sound Feedback:**
     - Upgraded `CategoryCard` with `Animated.spring` touch scale down to `0.93` on press and bounce back on release.
-    - Integrated `AudioService.playClickSound()` for audio touch feedback.
   - **Animated Mascot Companion ("Bubu"):**
     - Enhanced `AnimatedCharacter` with continuous floating loop animation (`Animated.sequence` floating up/down 6dp) and tap celebration bounce scaling up to `1.2x`.
   - **Deprecation Fixes & QA Pass:**
@@ -108,20 +107,23 @@
 ### ✅ Phase 3 — Animal Learning Experience
 - **Date Completed:** 2026-09-01
 - **Key Deliverables & Code Implemented:**
-  - **Structured Data Layer (`src/data/animals.ts` & `src/types/animal.ts`):**
-    - Created dataset for 10 core animals: Dog 🐶, Cat 🐱, Cow 🐮, Lion 🦁, Elephant 🐘, Monkey 🐒, Tiger 🐯, Chicken 🐔, Bird 🐦, Fish 🐟.
-    - Each record contains `name`, `displayName`, `illustration`, `soundText`, `pronunciationText`, `bgColor`, `accentColor`, `animationType`, and `description`.
-  - **Interactive Learning Components (`src/components/`):**
-    - `AnimalCard`: 2-column grid selection card with spring press feedback and icon highlights.
-    - `AnimalDetail`: Full-screen interactive detail view rendering large illustrations, uppercase text (`"DOG"`), sound speech bubbles, sparkle particle animations (`✨ ⭐ 🎉`), and audio execution via `AudioService`.
+  - **Expanded 20-Animal Data Model (`src/data/animals.ts` & `src/types/animal.ts`):**
+    - Built comprehensive dataset for **20 animals**: Dog 🐶, Cat 🐱, Cow 🐮, Rabbit 🐰, Duck 🦆, Lion 🦁, Elephant 🐘, Monkey 🐒, Panda 🐼, Bear 🐻, Tiger 🐯, Giraffe 🦒, Zebra 🦓, Horse 🐴, Sheep 🐑, Frog 🐸, Chicken 🐔, Bird 🐦, Fish 🐟, Dolphin 🐬.
+    - Embedded high-definition real animal photographs for every card with fallback to emoji illustrations.
+  - **Offline Voice Speech Engine (`src/services/AudioService.ts`):**
+    - Implemented clean speech synthesis (`expo-speech` & Web `SpeechSynthesis`) pronouncing exact animal names out loud (*"Dog"*, *"Cat"*, *"Cow"*, *"Panda"*, *"Rabbit"*).
+    - Removed hardware audio pop artifacts during screen navigation and button taps.
+  - **Centered Detail Poster Layout (`src/components/AnimalDetail/index.tsx`):**
+    - Centered Animal Title (`"DOG"`), Speech Button (`🔊 Say "Dog"`), 270 × 270 dp photo frame, and Prev/Next buttons with zero awkward vertical spacing.
+    - Added `useEffect` state resetting to ensure real photo URLs refresh cleanly when navigating between animals.
   - **Custom Physical Animations (`Animated` API):**
-    - `bounce` & `hop`: Spring scale bounce up to 1.25x (Dog, Monkey).
+    - `bounce` & `hop`: Spring scale bounce up to 1.15x (Dog, Monkey, Rabbit, Frog).
     - `fly`: Vertical translateY floating sequence (Bird).
-    - `swim` & `sway` & `wiggle`: Horizontal translateX oscillation sequence (Fish, Cow, Cat).
-    - `pulse` & `peck` & `pounce`: Scaling emphasis sequence (Lion, Elephant, Tiger, Chicken).
-  - **Navigation & Accessibility:**
-    - Dual mode in `AnimalsScreen`: Grid View ↔ Detail View.
-    - Prominent `⬅️ Prev` and `Next ➡️` touch targets (min height 52dp) with index boundary protection.
+    - `swim`, `sway`, & `wiggle`: Horizontal oscillation sequence (Fish, Dolphin, Duck, Cow, Cat).
+    - `pulse`, `peck`, & `pounce`: Scaling emphasis sequence (Lion, Elephant, Bear, Tiger, Chicken).
+  - **Navigation & Accessibility (`AnimalsScreen.tsx`):**
+    - Dual View Mode: 2-Column Grid List ↔ Fullscreen Interactive Poster Card.
+    - Step progress counter (`1 / 20` to `20 / 20`) with boundary protected `⬅️ Prev` and `Next ➡️` touch buttons.
   - **TypeScript QA Pass:** Executed `tsc --noEmit` validation pass — **0 errors**.
 
 ---
