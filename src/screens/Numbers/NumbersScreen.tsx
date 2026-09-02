@@ -449,16 +449,18 @@ export const NumbersScreen: React.FC<NumbersScreenProps> = ({ navigation }) => {
     <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.categoryNumbers }]}>
       {/* Confetti Cannon — fires on celebration */}
       {isCelebrating && (
-        <ConfettiCannon
-          ref={confettiRef}
-          count={150}
-          origin={{ x: SCREEN_WIDTH / 2, y: -20 }}
-          autoStart={true}
-          fadeOut={true}
-          explosionSpeed={400}
-          fallSpeed={3000}
-          colors={['#FF4081', '#FFEB3B', '#4CAF50', '#2196F3', '#9C27B0', '#FF9800', '#00BCD4']}
-        />
+        <View style={styles.confettiOverlay} pointerEvents="none">
+          <ConfettiCannon
+            ref={confettiRef}
+            count={150}
+            origin={{ x: SCREEN_WIDTH / 2, y: -20 }}
+            autoStart={true}
+            fadeOut={true}
+            explosionSpeed={400}
+            fallSpeed={3000}
+            colors={['#FF4081', '#FFEB3B', '#4CAF50', '#2196F3', '#9C27B0', '#FF9800', '#00BCD4']}
+          />
+        </View>
       )}
 
       {/* Lottie Celebration Overlay */}
@@ -672,10 +674,17 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: theme.spacing.screenPadding,
     paddingTop: theme.spacing.sm,
+    overflow: 'hidden',
+  },
+  confettiOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    zIndex: 9999,
+    elevation: 9999,
   },
   lottieOverlay: {
-    ...StyleSheet.absoluteFill,
-    zIndex: 999,
+    ...StyleSheet.absoluteFillObject,
+    zIndex: 9998,
+    elevation: 9998,
     alignItems: 'center',
     justifyContent: 'center',
   },
