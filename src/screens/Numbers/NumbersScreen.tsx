@@ -677,12 +677,12 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   confettiOverlay: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     zIndex: 9999,
     elevation: 9999,
   },
   lottieOverlay: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     zIndex: 9998,
     elevation: 9998,
     alignItems: 'center',

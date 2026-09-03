@@ -7,3 +7,5 @@ export * from './BackButton';
 export * from './ProgressIndicator';
 export * from './AnimalCard';
 export * from './AnimalDetail';
+export * from './FruitCard';
+export * from './FruitDetail';
