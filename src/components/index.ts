@@ -13,3 +13,5 @@ export * from './VehicleCard';
 export * from './VehicleDetail';
 export * from './BodyCard';
 export * from './BodyDetail';
+export * from './SoundCard';
+export * from './SoundDetail';

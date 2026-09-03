@@ -3,7 +3,7 @@ import { Platform } from 'react-native';
 
 /**
  * AudioService - Centralized Audio & Speech Manager for Little Explorer
- * Handles text-to-speech for words and direct web MP3 audio playback for real sound effects.
+ * Handles text-to-speech for words and direct MP3 audio playback for real sound effects.
  */
 
 export class AudioService {
@@ -11,23 +11,40 @@ export class AudioService {
   private static activeAudioInstance: HTMLAudioElement | null = null;
 
   /**
-   * Play real audio file (MP3 / OGG) directly from URL
+   * Play real sound asset (local required MP3 or URL) with speech fallback
    */
-  public static async playAudioUrl(url: string): Promise<void> {
-    if (this.isMuted || !url) return;
+  public static async playAudioUrl(urlOrAsset?: any, fallbackText?: string): Promise<void> {
+    if (this.isMuted) return;
     try {
       this.stopAllAudio();
 
-      if (typeof window !== 'undefined' && typeof window.Audio !== 'undefined') {
-        const audio = new window.Audio(url);
+      if (urlOrAsset && typeof window !== 'undefined' && typeof window.Audio !== 'undefined') {
+        const audio = new window.Audio(urlOrAsset);
         this.activeAudioInstance = audio;
         audio.volume = 1.0;
-        audio.play().catch((err) => {
-          console.log('Audio playback prevented:', err);
-        });
+
+        let playedSuccessfully = false;
+        const playPromise = audio.play();
+
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              playedSuccessfully = true;
+            })
+            .catch(() => {
+              // Fallback to speech synthesis if audio playback is interrupted/blocked
+              if (!playedSuccessfully && fallbackText) {
+                this.speakText(`${fallbackText}!`, 0.85, 1.15);
+              }
+            });
+        }
+      } else if (fallbackText) {
+        this.speakText(`${fallbackText}!`, 0.85, 1.15);
       }
     } catch (error) {
-      console.log('Failed to play real audio URL:', error);
+      if (fallbackText) {
+        this.speakText(`${fallbackText}!`, 0.85, 1.15);
+      }
     }
   }
 
@@ -71,7 +88,7 @@ export class AudioService {
   /**
    * Core speech synthesis trigger with nursery rhyme pitch & rhythmic timing
    */
-  private static speakText(text: string, rate: number = 0.76, pitch: number = 1.28): void {
+  public static speakText(text: string, rate: number = 0.76, pitch: number = 1.28): void {
     if (Platform.OS === 'web' && typeof window !== 'undefined' && 'speechSynthesis' in window) {
       try {
         window.speechSynthesis.cancel(); // Stop active audio
@@ -105,6 +122,7 @@ export class AudioService {
       if (this.activeAudioInstance) {
         this.activeAudioInstance.pause();
         this.activeAudioInstance.currentTime = 0;
+        this.activeAudioInstance.src = '';
         this.activeAudioInstance = null;
       }
 

@@ -1,4 +1,4 @@
-export type VehicleAnimationType =
+export type SoundAnimationType =
   | 'bounce'
   | 'stretch'
   | 'fly'
@@ -10,20 +10,22 @@ export type VehicleAnimationType =
   | 'pounce'
   | 'peck';
 
-export interface VehicleItem {
+export type SoundCategory = 'all' | 'nature' | 'vehicles' | 'home' | 'music';
+
+export interface SoundItem {
   id: string;
   name: string;
   displayName: string;
+  category: 'nature' | 'vehicles' | 'home' | 'music';
   illustration: string;
   imageUrl: string;
   images: string[];
   soundAsset?: any;
   soundUrl?: string;
-  hornSoundText: string;
   soundText: string;
   pronunciationText: string;
   bgColor: string;
   accentColor: string;
-  animationType: VehicleAnimationType;
+  animationType: SoundAnimationType;
   description: string;
 }

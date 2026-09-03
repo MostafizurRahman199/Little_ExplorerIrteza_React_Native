@@ -5,3 +5,4 @@ export * from './numbers';
 export * from './fruits';
 export * from './vehicles';
 export * from './body';
+export * from './sounds';

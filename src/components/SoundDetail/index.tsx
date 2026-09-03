@@ -1,19 +1,19 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Animated, Image } from 'react-native';
-import { VehicleItem } from '../../types';
+import { SoundItem } from '../../types';
 import { theme } from '../../theme';
 import { AudioService } from '../../services';
 
-interface VehicleDetailProps {
-  vehicle: VehicleItem;
+interface SoundDetailProps {
+  soundItem: SoundItem;
   onPrev: () => void;
   onNext: () => void;
   hasPrev: boolean;
   hasNext: boolean;
 }
 
-export const VehicleDetail: React.FC<VehicleDetailProps> = ({
-  vehicle,
+export const SoundDetail: React.FC<SoundDetailProps> = ({
+  soundItem,
   onPrev,
   onNext,
   hasPrev,
@@ -26,25 +26,26 @@ export const VehicleDetail: React.FC<VehicleDetailProps> = ({
   const [imageError, setImageError] = useState<boolean>(false);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState<number>(0);
 
-  // List of photos available for this vehicle
-  const photoList = vehicle.images && vehicle.images.length > 0 ? vehicle.images : [vehicle.imageUrl];
+  // Photos list
+  const photoList = soundItem.images && soundItem.images.length > 0 ? soundItem.images : [soundItem.imageUrl];
 
-  // When new vehicle comes, reset photo index and speak name
+  // Play real sound effect when soundItem changes
   useEffect(() => {
     setImageError(false);
     setCurrentPhotoIndex(0);
-    setActiveSpeech(vehicle.name);
+    setActiveSpeech(soundItem.name);
 
-    // Stop any previous playing audio (e.g. bicycle bell / horn from previous slide)
-    AudioService.stopAllAudio();
-
-    // Speak vehicle name when opening vehicle detail
-    AudioService.playWord(vehicle.name);
+    const soundTarget = soundItem.soundAsset || soundItem.soundUrl;
+    if (soundTarget) {
+      AudioService.playAudioUrl(soundTarget, soundItem.name);
+    } else {
+      AudioService.playWord(soundItem.name);
+    }
 
     return () => {
       AudioService.stopAllAudio();
     };
-  }, [vehicle.id]);
+  }, [soundItem.id]);
 
   const triggerAnimation = () => {
     // Sparkles animation
@@ -63,7 +64,7 @@ export const VehicleDetail: React.FC<VehicleDetailProps> = ({
     ]).start();
 
     // Physical animation
-    switch (vehicle.animationType) {
+    switch (soundItem.animationType) {
       case 'bounce':
       case 'hop':
         Animated.sequence([
@@ -138,35 +139,27 @@ export const VehicleDetail: React.FC<VehicleDetailProps> = ({
     }
   };
 
-  const handleImageTap = () => {
+  const handleSoundTap = () => {
     // Rotate photo
     if (photoList.length > 1) {
       setImageError(false);
       setCurrentPhotoIndex((prev) => (prev + 1) % photoList.length);
     }
 
-    // Says its name!
-    AudioService.playWord(vehicle.name);
-    setActiveSpeech(vehicle.name);
-
-    triggerAnimation();
-  };
-
-  const handleSoundButtonTap = () => {
-    // Makes real sound effect ONLY (no name pronunciation)
-    const soundTarget = vehicle.soundAsset || vehicle.soundUrl;
+    // Play REAL sound file!
+    const soundTarget = soundItem.soundAsset || soundItem.soundUrl;
     if (soundTarget) {
-      AudioService.playAudioUrl(soundTarget, vehicle.soundText);
+      AudioService.playAudioUrl(soundTarget, soundItem.soundText);
     } else {
-      AudioService.playSoundEffect(vehicle.soundText);
+      AudioService.playWord(soundItem.soundText || soundItem.name);
     }
-    setActiveSpeech(vehicle.soundText);
+    setActiveSpeech(soundItem.name);
 
     triggerAnimation();
   };
 
   const getTransformStyle = () => {
-    switch (vehicle.animationType) {
+    switch (soundItem.animationType) {
       case 'fly':
         return { transform: [{ translateY: animValue }, { scale: scaleValue }] };
       case 'swim':
@@ -178,48 +171,46 @@ export const VehicleDetail: React.FC<VehicleDetailProps> = ({
     }
   };
 
-  const activePhotoUri = photoList[currentPhotoIndex] || vehicle.imageUrl;
+  const activePhotoUri = photoList[currentPhotoIndex] || soundItem.imageUrl;
 
   return (
-    <View style={[styles.container, { backgroundColor: vehicle.bgColor }]}>
+    <View style={[styles.container, { backgroundColor: soundItem.bgColor }]}>
       {/* Sparkle Celebration Effects */}
       <Animated.View style={[styles.sparkleContainer, { opacity: sparkleAnim }]}>
-        <Text style={styles.sparkleText}>✨ 🚗 🎉</Text>
+        <Text style={styles.sparkleText}>✨ 🔊 🎉</Text>
       </Animated.View>
 
       {/* Main Centered Content Card */}
       <View style={styles.centerContentGroup}>
-        {/* 1. Vehicle Name Title */}
-        <Text style={[styles.displayName, { color: vehicle.accentColor }]}>
-          {vehicle.displayName}
+        {/* 1. Sound Name Title */}
+        <Text style={[styles.displayName, { color: soundItem.accentColor }]}>
+          {soundItem.displayName}
         </Text>
 
-        {/* 2. Sound Effect Button (Makes sound effect ONLY) */}
-        <View style={styles.audioActionRow}>
-          <TouchableOpacity activeOpacity={0.8} onPress={handleSoundButtonTap} style={styles.soundBadge}>
-            <Text style={styles.soundBadgeText}>
-              🔊 Sound: {vehicle.soundText}
-            </Text>
-          </TouchableOpacity>
-        </View>
+        {/* 2. Audio Control Badge */}
+        <TouchableOpacity activeOpacity={0.8} onPress={handleSoundTap} style={styles.soundBadge}>
+          <Text style={styles.soundBadgeText}>
+            📢 Real Sound: {soundItem.soundText}
+          </Text>
+        </TouchableOpacity>
 
-        {/* 3. Large Vehicle Image (Tap to say name & rotate photo!) */}
+        {/* 3. Large Sound Image Card */}
         <TouchableOpacity
           activeOpacity={0.9}
-          onPress={handleImageTap}
+          onPress={handleSoundTap}
           style={styles.illustrationCard}
         >
           <Animated.View style={[styles.imageWrapper, getTransformStyle(), theme.shadows.medium]}>
             {!imageError && activePhotoUri ? (
               <Image
                 source={{ uri: activePhotoUri }}
-                style={styles.realVehicleImage}
+                style={styles.realSoundImage}
                 resizeMode="cover"
                 onError={() => setImageError(true)}
               />
             ) : (
               <View style={styles.fallbackCircle}>
-                <Text style={styles.illustration}>{vehicle.illustration}</Text>
+                <Text style={styles.illustration}>{soundItem.illustration}</Text>
               </View>
             )}
 
@@ -298,18 +289,11 @@ const styles = StyleSheet.create({
     paddingTop: theme.spacing.xs,
   },
   displayName: {
-    fontSize: 40,
+    fontSize: 36,
     fontWeight: theme.fontWeight.extraBold,
-    letterSpacing: 2,
+    letterSpacing: 1.5,
     textAlign: 'center',
     marginBottom: 8,
-    zIndex: 10,
-  },
-  audioActionRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 24,
     zIndex: 10,
   },
   soundBadge: {
@@ -322,6 +306,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.12,
     shadowRadius: 4,
     elevation: 3,
+    marginBottom: 24,
+    zIndex: 10,
   },
   soundBadgeText: {
     fontSize: theme.fontSize.sm,
@@ -347,7 +333,7 @@ const styles = StyleSheet.create({
     borderColor: '#FFFFFF',
     position: 'relative',
   },
-  realVehicleImage: {
+  realSoundImage: {
     width: '100%',
     height: '100%',
   },

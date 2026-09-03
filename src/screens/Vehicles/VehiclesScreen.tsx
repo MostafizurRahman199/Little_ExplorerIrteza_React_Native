@@ -18,10 +18,20 @@ export const VehiclesScreen: React.FC<VehiclesScreenProps> = ({ navigation }) =>
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
-  // Play audio announcement when Vehicles screen opens
+  // Play audio announcement when Vehicles screen opens and stop audio when leaving screen
   useEffect(() => {
     AudioService.playWord('Vehicles');
-  }, []);
+
+    const unsubscribe = navigation.addListener('blur', () => {
+      AudioService.stopAllAudio();
+      setIsPlaying(false);
+    });
+
+    return () => {
+      AudioService.stopAllAudio();
+      unsubscribe();
+    };
+  }, [navigation]);
 
   // Auto-play slideshow timer effect
   useEffect(() => {
@@ -43,6 +53,7 @@ export const VehiclesScreen: React.FC<VehiclesScreenProps> = ({ navigation }) =>
   const togglePlay = () => {
     if (isPlaying) {
       setIsPlaying(false);
+      AudioService.stopAllAudio();
     } else {
       if (selectedIndex === null) {
         setSelectedIndex(0);
@@ -53,11 +64,13 @@ export const VehiclesScreen: React.FC<VehiclesScreenProps> = ({ navigation }) =>
 
   const handleSelectVehicle = (index: number) => {
     setIsPlaying(false);
+    AudioService.stopAllAudio();
     setSelectedIndex(index);
   };
 
   const handleBackToGrid = () => {
     setIsPlaying(false);
+    AudioService.stopAllAudio();
     if (selectedIndex !== null) {
       setSelectedIndex(null);
     } else {
