@@ -9,3 +9,5 @@ export * from './AnimalCard';
 export * from './AnimalDetail';
 export * from './FruitCard';
 export * from './FruitDetail';
+export * from './VehicleCard';
+export * from './VehicleDetail';
