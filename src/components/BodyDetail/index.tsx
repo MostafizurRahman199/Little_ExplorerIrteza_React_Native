@@ -1,19 +1,19 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Animated, Image } from 'react-native';
-import { VehicleItem } from '../../types';
+import { BodyItem } from '../../types';
 import { theme } from '../../theme';
 import { AudioService } from '../../services';
 
-interface VehicleDetailProps {
-  vehicle: VehicleItem;
+interface BodyDetailProps {
+  bodyItem: BodyItem;
   onPrev: () => void;
   onNext: () => void;
   hasPrev: boolean;
   hasNext: boolean;
 }
 
-export const VehicleDetail: React.FC<VehicleDetailProps> = ({
-  vehicle,
+export const BodyDetail: React.FC<BodyDetailProps> = ({
+  bodyItem,
   onPrev,
   onNext,
   hasPrev,
@@ -21,21 +21,22 @@ export const VehicleDetail: React.FC<VehicleDetailProps> = ({
 }) => {
   const animValue = useRef(new Animated.Value(0)).current;
   const scaleValue = useRef(new Animated.Value(1)).current;
+  const actionAnim = useRef(new Animated.Value(1)).current;
   const sparkleAnim = useRef(new Animated.Value(0)).current;
   const [activeSpeech, setActiveSpeech] = useState<string | null>(null);
   const [imageError, setImageError] = useState<boolean>(false);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState<number>(0);
 
-  // List of photos available for this vehicle (defaults to images array or fallback)
-  const photoList = vehicle.images && vehicle.images.length > 0 ? vehicle.images : [vehicle.imageUrl];
+  // List of photos available for this body part (defaults to images array or fallback)
+  const photoList = bodyItem.images && bodyItem.images.length > 0 ? bodyItem.images : [bodyItem.imageUrl];
 
-  // When new vehicle comes, reset photo index and speak name
+  // When new body part comes, reset photo index and speak name
   useEffect(() => {
     setImageError(false);
     setCurrentPhotoIndex(0);
-    setActiveSpeech(vehicle.name);
-    AudioService.playWord(vehicle.name);
-  }, [vehicle.id]);
+    setActiveSpeech(bodyItem.name);
+    AudioService.playWord(bodyItem.name);
+  }, [bodyItem.id]);
 
   const triggerAnimation = () => {
     // Sparkles animation
@@ -54,7 +55,7 @@ export const VehicleDetail: React.FC<VehicleDetailProps> = ({
     ]).start();
 
     // Physical animation
-    switch (vehicle.animationType) {
+    switch (bodyItem.animationType) {
       case 'bounce':
       case 'hop':
         Animated.sequence([
@@ -129,7 +130,7 @@ export const VehicleDetail: React.FC<VehicleDetailProps> = ({
     }
   };
 
-  const handleVehicleTap = () => {
+  const handleBodyTap = () => {
     // Rotate photo
     if (photoList.length > 1) {
       setImageError(false);
@@ -137,14 +138,38 @@ export const VehicleDetail: React.FC<VehicleDetailProps> = ({
     }
 
     // Speak name
-    AudioService.playWord(vehicle.name);
-    setActiveSpeech(vehicle.name);
+    AudioService.playWord(bodyItem.name);
+    setActiveSpeech(bodyItem.name);
+
+    triggerAnimation();
+  };
+
+  const handleActionTap = () => {
+    // Play body action sound / phrase
+    AudioService.playWord(bodyItem.actionText);
+    setActiveSpeech(bodyItem.actionText);
+
+    // Action button spring bounce
+    Animated.sequence([
+      Animated.spring(actionAnim, {
+        toValue: 1.2,
+        speed: 35,
+        bounciness: 15,
+        useNativeDriver: true,
+      }),
+      Animated.spring(actionAnim, {
+        toValue: 1,
+        speed: 25,
+        bounciness: 10,
+        useNativeDriver: true,
+      }),
+    ]).start();
 
     triggerAnimation();
   };
 
   const getTransformStyle = () => {
-    switch (vehicle.animationType) {
+    switch (bodyItem.animationType) {
       case 'fly':
         return { transform: [{ translateY: animValue }, { scale: scaleValue }] };
       case 'swim':
@@ -156,40 +181,59 @@ export const VehicleDetail: React.FC<VehicleDetailProps> = ({
     }
   };
 
-  const activePhotoUri = photoList[currentPhotoIndex] || vehicle.imageUrl;
+  const activePhotoUri = photoList[currentPhotoIndex] || bodyItem.imageUrl;
 
   return (
-    <View style={[styles.container, { backgroundColor: vehicle.bgColor }]}>
+    <View style={[styles.container, { backgroundColor: bodyItem.bgColor }]}>
       {/* Sparkle Celebration Effects */}
       <Animated.View style={[styles.sparkleContainer, { opacity: sparkleAnim }]}>
-        <Text style={styles.sparkleText}>✨ 🚗 🎉</Text>
+        <Text style={styles.sparkleText}>✨ 👀 🖐️ 🎉</Text>
       </Animated.View>
 
       {/* Main Centered Content Card */}
       <View style={styles.centerContentGroup}>
-        {/* 1. Vehicle Name Title */}
-        <Text style={[styles.displayName, { color: vehicle.accentColor }]}>
-          {vehicle.displayName}
+        {/* 1. Body Part Name Title */}
+        <Text style={[styles.displayName, { color: bodyItem.accentColor }]}>
+          {bodyItem.displayName}
         </Text>
 
+        {/* 2. Audio Control Row (Say Name + Action Button) */}
+        <View style={styles.audioActionRow}>
+          <TouchableOpacity activeOpacity={0.8} onPress={handleBodyTap} style={styles.soundBadge}>
+            <Text style={styles.soundBadgeText}>
+              🔊 {activeSpeech ? `"${activeSpeech}"` : `Say "${bodyItem.name}"`}
+            </Text>
+          </TouchableOpacity>
 
-        {/* 3. Large Vehicle Image (Tap to rotate photo!) */}
+          {/* ACTION / TOUCH SOUND BUTTON */}
+          <Animated.View style={{ transform: [{ scale: actionAnim }] }}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={handleActionTap}
+              style={[styles.actionButton, { backgroundColor: bodyItem.accentColor }]}
+            >
+              <Text style={styles.actionButtonText}>✨ Action! 🖐️</Text>
+            </TouchableOpacity>
+          </Animated.View>
+        </View>
+
+        {/* 3. Large Body Image (Tap to rotate photo!) */}
         <TouchableOpacity
           activeOpacity={0.9}
-          onPress={handleVehicleTap}
+          onPress={handleBodyTap}
           style={styles.illustrationCard}
         >
           <Animated.View style={[styles.imageWrapper, getTransformStyle(), theme.shadows.medium]}>
             {!imageError && activePhotoUri ? (
               <Image
                 source={{ uri: activePhotoUri }}
-                style={styles.realVehicleImage}
+                style={styles.realBodyImage}
                 resizeMode="cover"
                 onError={() => setImageError(true)}
               />
             ) : (
               <View style={styles.fallbackCircle}>
-                <Text style={styles.illustration}>{vehicle.illustration}</Text>
+                <Text style={styles.illustration}>{bodyItem.illustration}</Text>
               </View>
             )}
 
@@ -271,7 +315,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    gap: 8,
     marginBottom: theme.spacing.md,
+    flexWrap: 'wrap',
   },
   soundBadge: {
     backgroundColor: '#FFFFFF',
@@ -288,6 +334,21 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSize.sm,
     fontWeight: theme.fontWeight.bold,
     color: theme.colors.textDark,
+  },
+  actionButton: {
+    paddingHorizontal: theme.spacing.md,
+    paddingVertical: theme.spacing.xs,
+    borderRadius: theme.radius.round,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  actionButtonText: {
+    fontSize: theme.fontSize.sm,
+    fontWeight: theme.fontWeight.extraBold,
+    color: '#FFFFFF',
   },
   illustrationCard: {
     alignItems: 'center',
@@ -306,7 +367,7 @@ const styles = StyleSheet.create({
     borderColor: '#FFFFFF',
     position: 'relative',
   },
-  realVehicleImage: {
+  realBodyImage: {
     width: '100%',
     height: '100%',
   },

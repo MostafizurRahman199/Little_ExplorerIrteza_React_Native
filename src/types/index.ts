@@ -5,6 +5,7 @@ export * from './color';
 export * from './number';
 export * from './fruit';
 export * from './vehicle';
+export * from './body';
 
 export interface CategoryItem {
   id: keyof import('./navigation').RootStackParamList;

@@ -11,3 +11,5 @@ export * from './FruitCard';
 export * from './FruitDetail';
 export * from './VehicleCard';
 export * from './VehicleDetail';
+export * from './BodyCard';
+export * from './BodyDetail';

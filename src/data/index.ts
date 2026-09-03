@@ -4,3 +4,4 @@ export * from './colors';
 export * from './numbers';
 export * from './fruits';
 export * from './vehicles';
+export * from './body';
