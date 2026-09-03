@@ -27,7 +27,7 @@ export const BodyDetail: React.FC<BodyDetailProps> = ({
   const [imageError, setImageError] = useState<boolean>(false);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState<number>(0);
 
-  // List of photos available for this body part (defaults to images array or fallback)
+  // List of photos available for this body part
   const photoList = bodyItem.images && bodyItem.images.length > 0 ? bodyItem.images : [bodyItem.imageUrl];
 
   // When new body part comes, reset photo index and speak name
@@ -197,7 +197,7 @@ export const BodyDetail: React.FC<BodyDetailProps> = ({
           {bodyItem.displayName}
         </Text>
 
-        {/* 2. Audio Control Row (Say Name + Action Button) */}
+        {/* 2. Audio Control Row */}
         <View style={styles.audioActionRow}>
           <TouchableOpacity activeOpacity={0.8} onPress={handleBodyTap} style={styles.soundBadge}>
             <Text style={styles.soundBadgeText}>
@@ -205,7 +205,7 @@ export const BodyDetail: React.FC<BodyDetailProps> = ({
             </Text>
           </TouchableOpacity>
 
-          {/* ACTION / TOUCH SOUND BUTTON */}
+          {/* ACTION BUTTON */}
           <Animated.View style={{ transform: [{ scale: actionAnim }] }}>
             <TouchableOpacity
               activeOpacity={0.8}
@@ -286,14 +286,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: theme.spacing.md,
+    paddingVertical: theme.spacing.sm,
     paddingHorizontal: theme.spacing.md,
     borderRadius: theme.radius.xl,
   },
   sparkleContainer: {
     position: 'absolute',
-    top: 20,
-    zIndex: 10,
+    top: 10,
+    zIndex: 20,
   },
   sparkleText: {
     fontSize: 34,
@@ -303,21 +303,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     maxWidth: 360,
+    paddingTop: theme.spacing.xs,
   },
   displayName: {
-    fontSize: 38,
+    fontSize: 40,
     fontWeight: theme.fontWeight.extraBold,
     letterSpacing: 2,
     textAlign: 'center',
-    marginBottom: theme.spacing.xs,
+    marginBottom: 8,
+    zIndex: 10,
   },
   audioActionRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
-    marginBottom: theme.spacing.md,
+    marginBottom: 24,
     flexWrap: 'wrap',
+    zIndex: 10,
   },
   soundBadge: {
     backgroundColor: '#FFFFFF',
@@ -353,11 +356,13 @@ const styles = StyleSheet.create({
   illustrationCard: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: theme.spacing.md,
+    marginTop: 10,
+    marginBottom: 28,
+    zIndex: 1,
   },
   imageWrapper: {
-    width: 270,
-    height: 250,
+    width: 260,
+    height: 240,
     borderRadius: theme.radius.xl,
     overflow: 'hidden',
     backgroundColor: '#FFFFFF',
@@ -400,6 +405,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
     paddingHorizontal: theme.spacing.xs,
+    zIndex: 10,
   },
   navButton: {
     backgroundColor: '#FFFFFF',

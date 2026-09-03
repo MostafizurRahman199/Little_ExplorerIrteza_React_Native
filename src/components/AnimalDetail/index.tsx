@@ -163,12 +163,12 @@ export const AnimalDetail: React.FC<AnimalDetailProps> = ({
 
       {/* Main Centered Content Card */}
       <View style={styles.centerContentGroup}>
-        {/* 1. Animal Name Title */}
+        {/* 1. Animal Name Title (Positioned higher, zIndex: 10) */}
         <Text style={[styles.displayName, { color: animal.accentColor }]}>
           {animal.displayName}
         </Text>
 
-        {/* 2. Audio Speech Button */}
+        {/* 2. Audio Speech Button (Positioned higher, zIndex: 10) */}
         <TouchableOpacity activeOpacity={0.8} onPress={handleAnimalTap} style={styles.soundBadge}>
           <Text style={styles.soundBadgeText}>
             🔊 {activeSpeech ? `"${activeSpeech}"` : `Say "${animal.name}"`}
@@ -244,14 +244,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: theme.spacing.md,
+    paddingVertical: theme.spacing.sm,
     paddingHorizontal: theme.spacing.md,
     borderRadius: theme.radius.xl,
   },
   sparkleContainer: {
     position: 'absolute',
-    top: 20,
-    zIndex: 10,
+    top: 10,
+    zIndex: 20,
   },
   sparkleText: {
     fontSize: 34,
@@ -261,39 +261,44 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     maxWidth: 360,
+    paddingTop: theme.spacing.xs,
   },
   displayName: {
-    fontSize: 44,
+    fontSize: 40,
     fontWeight: theme.fontWeight.extraBold,
     letterSpacing: 2,
     textAlign: 'center',
-    marginBottom: theme.spacing.xs,
+    marginBottom: 8,
+    zIndex: 10,
   },
   soundBadge: {
     backgroundColor: '#FFFFFF',
     paddingHorizontal: theme.spacing.lg,
-    paddingVertical: theme.spacing.sm,
+    paddingVertical: theme.spacing.xs,
     borderRadius: theme.radius.round,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.12,
     shadowRadius: 4,
     elevation: 3,
-    marginBottom: theme.spacing.md,
+    marginBottom: 24,
+    zIndex: 10,
   },
   soundBadgeText: {
-    fontSize: theme.fontSize.md,
+    fontSize: theme.fontSize.sm,
     fontWeight: theme.fontWeight.bold,
     color: theme.colors.textDark,
   },
   illustrationCard: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: theme.spacing.lg,
+    marginTop: 10,
+    marginBottom: 28,
+    zIndex: 1,
   },
   imageWrapper: {
-    width: 270,
-    height: 270,
+    width: 260,
+    height: 240,
     borderRadius: theme.radius.xl,
     overflow: 'hidden',
     backgroundColor: '#FFFFFF',
@@ -336,6 +341,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
     paddingHorizontal: theme.spacing.xs,
+    zIndex: 10,
   },
   navButton: {
     backgroundColor: '#FFFFFF',

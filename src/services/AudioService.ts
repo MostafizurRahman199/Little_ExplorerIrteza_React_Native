@@ -3,25 +3,32 @@ import { Platform } from 'react-native';
 
 /**
  * AudioService - Centralized Audio & Speech Manager for Little Explorer
- * Provides beautiful, melodic nursery rhyme pronunciations with rhythmic cadence
- * and warm melodic chime effects tailored for toddlers.
+ * Handles text-to-speech for words and direct web MP3 audio playback for real sound effects.
  */
 
 export class AudioService {
   private static isMuted: boolean = false;
+  private static activeAudioInstance: HTMLAudioElement | null = null;
 
   /**
-   * Play a soft musical chime - Disabled to prevent unwanted ring sound
+   * Play real audio file (MP3 / OGG) directly from URL
    */
-  private static playMelodicChime(): void {
-    // Disabled: ring chime sound removed
-  }
+  public static async playAudioUrl(url: string): Promise<void> {
+    if (this.isMuted || !url) return;
+    try {
+      this.stopAllAudio();
 
-  /**
-   * Play UI click feedback - Completely silent
-   */
-  public static async playClickSound(): Promise<void> {
-    // Intentionally empty
+      if (typeof window !== 'undefined' && typeof window.Audio !== 'undefined') {
+        const audio = new window.Audio(url);
+        this.activeAudioInstance = audio;
+        audio.volume = 1.0;
+        audio.play().catch((err) => {
+          console.log('Audio playback prevented:', err);
+        });
+      }
+    } catch (error) {
+      console.log('Failed to play real audio URL:', error);
+    }
   }
 
   /**
@@ -30,7 +37,6 @@ export class AudioService {
   public static async playWord(word: string): Promise<void> {
     if (this.isMuted) return;
     try {
-      this.playMelodicChime();
       this.speakText(`${word}!`, 0.82, 1.18);
     } catch (error) {
       // Ignore speech errors
@@ -43,7 +49,6 @@ export class AudioService {
   public static async playPoemPhrase(letter: string, word: string): Promise<void> {
     if (this.isMuted) return;
     try {
-      this.playMelodicChime();
       const poemText = `${letter} for ${word}!`;
       this.speakText(poemText, 0.78, 1.22);
     } catch (error) {
@@ -57,7 +62,6 @@ export class AudioService {
   public static async playSoundEffect(soundText: string): Promise<void> {
     if (this.isMuted) return;
     try {
-      this.playMelodicChime();
       this.speakText(`${soundText}!`, 0.82, 1.22);
     } catch (error) {
       // Ignore
@@ -94,10 +98,16 @@ export class AudioService {
   }
 
   /**
-   * Stop active speech
+   * Stop active speech and audio playback
    */
   public static async stopAllAudio(): Promise<void> {
     try {
+      if (this.activeAudioInstance) {
+        this.activeAudioInstance.pause();
+        this.activeAudioInstance.currentTime = 0;
+        this.activeAudioInstance = null;
+      }
+
       if (Platform.OS === 'web' && typeof window !== 'undefined' && 'speechSynthesis' in window) {
         window.speechSynthesis.cancel();
       } else {

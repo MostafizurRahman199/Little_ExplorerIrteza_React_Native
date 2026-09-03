@@ -26,7 +26,7 @@ export const FruitDetail: React.FC<FruitDetailProps> = ({
   const [imageError, setImageError] = useState<boolean>(false);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState<number>(0);
 
-  // List of photos available for this fruit (defaults to images array or fallback)
+  // List of photos available for this fruit
   const photoList = fruit.images && fruit.images.length > 0 ? fruit.images : [fruit.imageUrl];
 
   // When new fruit comes, reset photo index and speak name
@@ -44,7 +44,7 @@ export const FruitDetail: React.FC<FruitDetailProps> = ({
       setCurrentPhotoIndex((prev) => (prev + 1) % photoList.length);
     }
 
-    // 2. Speak fruit name out loud clearly
+    // 2. Speak fruit name out loud clearly (e.g. "Apple")
     AudioService.playWord(fruit.name);
     setActiveSpeech(fruit.name);
 
@@ -158,7 +158,7 @@ export const FruitDetail: React.FC<FruitDetailProps> = ({
     <View style={[styles.container, { backgroundColor: fruit.bgColor }]}>
       {/* Sparkle Celebration Effects */}
       <Animated.View style={[styles.sparkleContainer, { opacity: sparkleAnim }]}>
-        <Text style={styles.sparkleText}>✨ ⭐ 🎉</Text>
+        <Text style={styles.sparkleText}>✨ 🍎 🎉</Text>
       </Animated.View>
 
       {/* Main Centered Content Card */}
@@ -175,7 +175,7 @@ export const FruitDetail: React.FC<FruitDetailProps> = ({
           </Text>
         </TouchableOpacity>
 
-        {/* 3. Large Cute Fruit Image (Tap to rotate photo!) */}
+        {/* 3. Large Fruit Image (Tap to rotate photo!) */}
         <TouchableOpacity
           activeOpacity={0.9}
           onPress={handleFruitTap}
@@ -244,14 +244,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: theme.spacing.md,
+    paddingVertical: theme.spacing.sm,
     paddingHorizontal: theme.spacing.md,
     borderRadius: theme.radius.xl,
   },
   sparkleContainer: {
     position: 'absolute',
-    top: 20,
-    zIndex: 10,
+    top: 10,
+    zIndex: 20,
   },
   sparkleText: {
     fontSize: 34,
@@ -261,39 +261,44 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     maxWidth: 360,
+    paddingTop: theme.spacing.xs,
   },
   displayName: {
-    fontSize: 44,
+    fontSize: 40,
     fontWeight: theme.fontWeight.extraBold,
     letterSpacing: 2,
     textAlign: 'center',
-    marginBottom: theme.spacing.xs,
+    marginBottom: 8,
+    zIndex: 10,
   },
   soundBadge: {
     backgroundColor: '#FFFFFF',
     paddingHorizontal: theme.spacing.lg,
-    paddingVertical: theme.spacing.sm,
+    paddingVertical: theme.spacing.xs,
     borderRadius: theme.radius.round,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.12,
     shadowRadius: 4,
     elevation: 3,
-    marginBottom: theme.spacing.md,
+    marginBottom: 24,
+    zIndex: 10,
   },
   soundBadgeText: {
-    fontSize: theme.fontSize.md,
+    fontSize: theme.fontSize.sm,
     fontWeight: theme.fontWeight.bold,
     color: theme.colors.textDark,
   },
   illustrationCard: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: theme.spacing.lg,
+    marginTop: 10,
+    marginBottom: 28,
+    zIndex: 1,
   },
   imageWrapper: {
-    width: 270,
-    height: 270,
+    width: 260,
+    height: 240,
     borderRadius: theme.radius.xl,
     overflow: 'hidden',
     backgroundColor: '#FFFFFF',
@@ -336,6 +341,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
     paddingHorizontal: theme.spacing.xs,
+    zIndex: 10,
   },
   navButton: {
     backgroundColor: '#FFFFFF',

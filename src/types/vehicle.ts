@@ -17,6 +17,7 @@ export interface VehicleItem {
   illustration: string;
   imageUrl: string;
   images: string[];
+  soundUrl?: string;
   hornSoundText: string;
   soundText: string;
   pronunciationText: string;

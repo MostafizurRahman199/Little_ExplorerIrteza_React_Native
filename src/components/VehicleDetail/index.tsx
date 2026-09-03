@@ -26,7 +26,7 @@ export const VehicleDetail: React.FC<VehicleDetailProps> = ({
   const [imageError, setImageError] = useState<boolean>(false);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState<number>(0);
 
-  // List of photos available for this vehicle (defaults to images array or fallback)
+  // List of photos available for this vehicle
   const photoList = vehicle.images && vehicle.images.length > 0 ? vehicle.images : [vehicle.imageUrl];
 
   // When new vehicle comes, reset photo index and speak name
@@ -34,7 +34,12 @@ export const VehicleDetail: React.FC<VehicleDetailProps> = ({
     setImageError(false);
     setCurrentPhotoIndex(0);
     setActiveSpeech(vehicle.name);
-    AudioService.playWord(vehicle.name);
+
+    if (vehicle.soundUrl) {
+      AudioService.playAudioUrl(vehicle.soundUrl);
+    } else {
+      AudioService.playWord(vehicle.name);
+    }
   }, [vehicle.id]);
 
   const triggerAnimation = () => {
@@ -136,8 +141,11 @@ export const VehicleDetail: React.FC<VehicleDetailProps> = ({
       setCurrentPhotoIndex((prev) => (prev + 1) % photoList.length);
     }
 
-    // Speak name
-    AudioService.playWord(vehicle.name);
+    if (vehicle.soundUrl) {
+      AudioService.playAudioUrl(vehicle.soundUrl);
+    } else {
+      AudioService.playWord(vehicle.name);
+    }
     setActiveSpeech(vehicle.name);
 
     triggerAnimation();
@@ -172,6 +180,14 @@ export const VehicleDetail: React.FC<VehicleDetailProps> = ({
           {vehicle.displayName}
         </Text>
 
+        {/* 2. Audio Speech Button */}
+        <View style={styles.audioActionRow}>
+          <TouchableOpacity activeOpacity={0.8} onPress={handleVehicleTap} style={styles.soundBadge}>
+            <Text style={styles.soundBadgeText}>
+              🔊 {activeSpeech ? `"${activeSpeech}"` : `Say "${vehicle.name}"`}
+            </Text>
+          </TouchableOpacity>
+        </View>
 
         {/* 3. Large Vehicle Image (Tap to rotate photo!) */}
         <TouchableOpacity
@@ -242,14 +258,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: theme.spacing.md,
+    paddingVertical: theme.spacing.sm,
     paddingHorizontal: theme.spacing.md,
     borderRadius: theme.radius.xl,
   },
   sparkleContainer: {
     position: 'absolute',
-    top: 20,
-    zIndex: 10,
+    top: 10,
+    zIndex: 20,
   },
   sparkleText: {
     fontSize: 34,
@@ -259,23 +275,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     maxWidth: 360,
+    paddingTop: theme.spacing.xs,
   },
   displayName: {
-    fontSize: 38,
+    fontSize: 40,
     fontWeight: theme.fontWeight.extraBold,
     letterSpacing: 2,
     textAlign: 'center',
-    marginBottom: theme.spacing.xs,
+    marginBottom: 8,
+    zIndex: 10,
   },
   audioActionRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: theme.spacing.md,
+    marginBottom: 24,
+    zIndex: 10,
   },
   soundBadge: {
     backgroundColor: '#FFFFFF',
-    paddingHorizontal: theme.spacing.md,
+    paddingHorizontal: theme.spacing.lg,
     paddingVertical: theme.spacing.xs,
     borderRadius: theme.radius.round,
     shadowColor: '#000',
@@ -292,11 +311,13 @@ const styles = StyleSheet.create({
   illustrationCard: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: theme.spacing.md,
+    marginTop: 10,
+    marginBottom: 28,
+    zIndex: 1,
   },
   imageWrapper: {
-    width: 270,
-    height: 250,
+    width: 260,
+    height: 240,
     borderRadius: theme.radius.xl,
     overflow: 'hidden',
     backgroundColor: '#FFFFFF',
@@ -339,6 +360,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
     paddingHorizontal: theme.spacing.xs,
+    zIndex: 10,
   },
   navButton: {
     backgroundColor: '#FFFFFF',
